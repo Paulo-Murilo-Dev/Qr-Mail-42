@@ -21,20 +21,18 @@ function gerarNumerosDaSorte() {
 }
 
 exports.exibirSorte = (req, res) => {
-  // Se já tem cookie, usa a sorte salva
   const cookie = req.cookies['sorte_do_dia'];
   if (cookie) {
     const { frase, numeros } = JSON.parse(cookie);
     return res.render('sorte', { frase, numeros });
   }
 
-  // Senão, gera e salva no cookie por 24h
   pegarSorteAleatoria((err, frase) => {
     if (err) return res.status(500).send(err);
     const numeros = gerarNumerosDaSorte();
 
     res.cookie('sorte_do_dia', JSON.stringify({ frase, numeros }), {
-      maxAge: 24 * 60 * 60 * 1000, // 24h
+      maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true
     });
 

@@ -1,13 +1,12 @@
-const db = require('../config/db');
+const getConnection = require('../config/db');
 
-exports.exibirTarot = (req, res) => {
+exports.exibirTarot = async (req, res) => {
   const prompt = req.cookies.tarot_prompt;
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
   if (prompt) {
     const resposta = '(api desconectada)';
 
-    // Extrai dados estruturados do prompt
     const baralhoMatch = prompt.match(/Baralho: (.+)/);
     const leituraMatch = prompt.match(/Tipo de leitura: (.+)/);
     const objetivoMatch = prompt.match(/Objetivo: (.+)/);
@@ -21,21 +20,22 @@ exports.exibirTarot = (req, res) => {
     let quantidade_cartas = null;
     if (tipo_leitura_raw) {
       if (tipo_leitura_raw.includes('Cruz')) {
-        quantidade_cartas = -1; // código especial para cruz celta
+        quantidade_cartas = -1;
       } else {
         const numMatch = tipo_leitura_raw.match(/(\d+)/);
         quantidade_cartas = numMatch ? parseInt(numMatch[1]) : null;
       }
     }
 
-    // Insere log estruturado no banco (sem salvar prompt)
-    const query = `
-      INSERT INTO tarot_logs (resposta, ip_address, pergunta, objetivo, baralho, quantidade_cartas)
-      VALUES (?, ?, ?, ?, ?, ?)`;
-
-    db.query(query, [resposta, ip, pergunta, objetivo, baralho, quantidade_cartas], (err) => {
-      if (err) console.error('Erro ao salvar log de tarot:', err);
-    });
+    try {
+      const db = await getConnection();
+      const query = `
+        INSERT INTO tarot_logs (resposta, ip_address, pergunta, objetivo, baralho, quantidade_cartas)
+        VALUES (?, ?, ?, ?, ?, ?)`;
+      await db.query(query, [resposta, ip, pergunta, objetivo, baralho, quantidade_cartas]);
+    } catch (err) {
+      console.error('Erro ao salvar log de tarot:', err);
+    }
 
     return res.render('tarot', { promptSomente: true, promptSalvo: prompt });
   }
