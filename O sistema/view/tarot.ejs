@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔮 Tarô Místico - Consulta Profissional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600&family=Marcellus+SC&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --deep-purple: #1a0524;
+      --mystic-purple: #3d1255;
+      --light-purple: #6a3093;
+      --accent-purple: #9b59b6;
+      --gold: #d4af37;
+      --silver: #c0c0c0;
+      --white: #f8f8f8;
+      --shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0a0515;
+      color: var(--white);
+      font-family: 'Josefin Sans', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Fundo estrelado animado */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><circle cx="50" cy="30" r="1.2" fill="white" opacity="0.8"/><circle cx="120" cy="80" r="0.8" fill="white" opacity="0.6"/><circle cx="250" cy="40" r="1" fill="white" opacity="0.7"/><circle cx="300" cy="120" r="1.5" fill="white" opacity="0.9"/><circle cx="180" cy="200" r="0.8" fill="white" opacity="0.5"/><circle cx="350" cy="180" r="1.2" fill="white" opacity="0.7"/><circle cx="80" cy="280" r="1" fill="white" opacity="0.6"/><circle cx="200" cy="320" r="1.3" fill="white" opacity="0.8"/><circle cx="320" cy="300" r="0.9" fill="white" opacity="0.5"/></svg>');
+      background-size: cover, auto;
+      z-index: -2;
+      animation: starsAnimation 60s linear infinite;
+    }
+
+    @keyframes starsAnimation {
+      0% { background-position: 0 0, 0 0; }
+      100% { background-position: 0 0, 400px 400px; }
+    }
+
+    /* Neblina cósmica sutil */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(106, 48, 147, 0.15) 0%, transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(106, 48, 147, 0.15) 0%, transparent 25%);
+      z-index: -1;
+      animation: nebulaPulse 20s ease infinite alternate;
+    }
+
+    @keyframes nebulaPulse {
+      0% { opacity: 0.3; }
+      100% { opacity: 0.7; }
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background: rgba(29, 6, 49, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 
+        0 10px 25px rgba(0, 0, 0, 0.4),
+        inset 0 0 15px rgba(155, 89, 182, 0.2);
+      border: 1px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out forwards;
+      transition: all 0.5s ease;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .container::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, var(--accent-purple), var(--gold), var(--accent-purple));
+      -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-family: 'Marcellus SC', serif;
+      font-weight: 400;
+      color: var(--gold);
+      font-size: 2.5rem;
+      text-shadow: 0 2px 10px rgba(155, 89, 182, 0.5);
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    h1::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 25%;
+      right: 25%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
+    }
+
+    .bloco {
+      margin-bottom: 25px;
+      position: relative;
+      animation: fadeIn 0.6s ease-out backwards;
+      animation-delay: 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .bloco::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(155, 89, 182, 0.3), transparent);
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 12px;
+      color: var(--silver);
+      font-size: 1.1rem;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 8px;
+    }
+
+    .radio-option {
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .radio-option:hover {
+      transform: translateY(-3px);
+    }
+
+    .radio-option input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .radio-label {
+      display: flex;
+      align-items: center;
+      padding: 12px 18px;
+      border-radius: 8px;
+      background: rgba(61, 18, 85, 0.5);
+      border: 1px solid rgba(155, 89, 182, 0.3);
+      transition: all 0.3s ease;
+      font-weight: 400;
+    }
+
+    .radio-option input:checked + .radio-label {
+      background: var(--mystic-purple);
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 15px rgba(155, 89, 182, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .radio-option input:focus + .radio-label {
+      box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.3);
+    }
+
+    .radio-label i {
+      margin-right: 8px;
+      color: var(--gold);
+      font-size: 1.1em;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 8px;
+      border: 1px solid rgba(155, 89, 182, 0.5);
+      background: rgba(61, 18, 85, 0.7);
+      color: var(--white);
+      font-size: 1rem;
+      font-family: 'Josefin Sans', sans-serif;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4af37'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 18px center;
+      background-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--accent-purple);
+      box-shadow: 
+        0 0 0 3px rgba(155, 89, 182, 0.3),
+        inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .textarea-container {
+      position: relative;
+    }
+
+    .char-counter {
+      position: absolute;
+      top: -25px;
+      right: 0;
+      font-size: 0.8rem;
+      color: var(--silver);
+      transition: all 0.3s;
+    }
+
+    .char-counter.warning {
+      color: #ffcc00;
+      text-shadow: 0 0 5px rgba(255, 204, 0, 0.3);
+    }
+
+    .char-counter.danger {
+      color: #ff3333;
+      text-shadow: 0 0 5px rgba(255, 51, 51, 0.3);
+    }
+
+    textarea {
+      width: 100%;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(155, 89, 182, 0.5);
+      background: rgba(61, 18, 85, 0.7);
+      color: var(--white);
+      font-size: 1rem;
+      font-family: 'Josefin Sans', sans-serif;
+      resize: none;
+      min-height: 140px;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
+      line-height: 1.5;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-purple);
+      box-shadow: 
+        0 0 0 3px rgba(155, 89, 182, 0.3),
+        inset 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 16px 45px;
+      background: linear-gradient(135deg, var(--accent-purple), var(--light-purple));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.4s ease;
+      box-shadow: 
+        0 4px 15px rgba(155, 89, 182, 0.4),
+        0 6px 30px rgba(155, 89, 182, 0.2);
+      position: relative;
+      overflow: hidden;
+      font-family: 'Josefin Sans', sans-serif;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 
+        0 6px 20px rgba(155, 89, 182, 0.6),
+        0 8px 35px rgba(155, 89, 182, 0.3);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.6s;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button i {
+      margin-right: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    button:hover i {
+      transform: rotate(15deg);
+    }
+
+    .resultado {
+      margin-top: 40px;
+      background: rgba(61, 18, 85, 0.7);
+      padding: 28px;
+      border-radius: 15px;
+      white-space: pre-line;
+      border-left: 4px solid var(--gold);
+      box-shadow: 
+        0 5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 0 10px rgba(155, 89, 182, 0.2);
+      display: none;
+      animation: fadeIn 0.6s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .resultado::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), transparent 30%);
+      pointer-events: none;
+    }
+
+    .resultado::after {
+      content: "🔮";
+      position: absolute;
+      top: -15px;
+      left: -15px;
+      font-size: 2.5rem;
+      filter: drop-shadow(0 0 8px rgba(155, 89, 182, 0.7));
+      opacity: 0.7;
+      animation: float 4s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    /* Efeito de partículas místicas */
+    .particle {
+      position: absolute;
+      background: rgba(212, 175, 55, 0.6);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px;
+      }
+      
+      h1 {
+        font-size: 2.2rem;
+      }
+      
+      .radio-group {
+        gap: 12px;
+      }
+      
+      button {
+        width: 100%;
+        padding: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+      }
+      
+      .container {
+        padding: 25px 20px;
+      }
+      
+      h1 {
+        font-size: 1.9rem;
+      }
+      
+      label {
+        font-size: 1rem;
+      }
+      
+      .radio-label {
+        padding: 10px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fas fa-crystal-ball"></i> Consulta Mística</h1>
+
+    <% if (!promptSomente) { %>
+      <div class="bloco">
+        <label>Escolha o baralho:</label>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="tarot" name="baralho" value="Tarô" checked>
+            <label for="tarot" class="radio-label">
+              <i class="fas fa-moon"></i> Tarô
+            </label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="cigano" name="baralho" value="Cigano">
+            <label for="cigano" class="radio-label">
+              <i class="fas fa-star"></i> Cigano
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloco">
+        <label for="tipoLeitura">Tipo de leitura:</label>
+        <select id="tipoLeitura">
+          <option value="1">1 carta - Visão Geral</option>
+          <option value="3">3 cartas - Passado, Presente, Futuro</option>
+          <option value="9">9 cartas - Círculo Cármico</option>
+          <option value="cruz">Cruz Celta - Análise Profunda</option>
+        </select>
+      </div>
+
+      <div class="bloco">
+        <label>Objetivo da leitura:</label>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="simnao" name="objetivo" value="simnao" checked>
+            <label for="simnao" class="radio-label">
+              <i class="fas fa-question"></i> Sim ou Não
+            </label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="conselho" name="objetivo" value="conselho">
+            <label for="conselho" class="radio-label">
+              <i class="fas fa-hand-holding-heart"></i> Conselho
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloco">
+        <div class="textarea-container">
+          <label for="pergunta">Sua pergunta mística:</label>
+          <span id="charCount" class="char-counter">255 caracteres restantes</span>
+          <textarea id="pergunta" maxlength="255" placeholder="Digite aqui sua pergunta para o universo..."></textarea>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <button onclick="gerarPrompt()">
+          <i class="fas fa-magic"></i> Revelar Resposta
+        </button>
+      </div>
+    <% } %>
+
+    <div class="resultado" id="resultadoPrompt" style="display: <%= promptSalvo ? 'block' : 'none' %>;">
+      <%= promptSalvo %>
+    </div>
+  </div>
+
+  <script>
+    // Contador de caracteres dinâmico
+    const textarea = document.getElementById('pergunta');
+    const charCounter = document.getElementById('charCount');
+    const maxLength = 255;
+    const container = document.querySelector('.container');
+
+    textarea.addEventListener('input', function() {
+      const remaining = maxLength - this.value.length;
+      charCounter.textContent = `${remaining} caracteres restantes`;
+      
+      if (remaining < 30) {
+        charCounter.className = 'char-counter warning';
+      } else if (remaining < 0) {
+        charCounter.className = 'char-counter danger';
+      } else {
+        charCounter.className = 'char-counter';
+      }
+      
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+    });
+
+    async function gerarPrompt() {
+      const baralho = document.querySelector('input[name="baralho"]:checked').value;
+      const leitura = document.getElementById('tipoLeitura').value;
+      const objetivo = document.querySelector('input[name="objetivo"]:checked').value;
+      const pergunta = document.getElementById('pergunta').value.trim();
+
+      if (!pergunta) {
+        alert('Por favor, formule sua pergunta para o universo.');
+        return;
+      }
+
+      if (pergunta.length > maxLength) {
+        alert(`Sua pergunta excede o limite de ${maxLength} caracteres. Por favor, seja mais conciso.`);
+        return;
+      }
+
+      // Animação de contração do container
+      container.style.maxHeight = container.scrollHeight + 'px';
+      container.style.overflow = 'hidden';
+      
+      await new Promise(resolve => {
+        container.style.transition = 'all 0.5s ease';
+        container.style.maxHeight = '400px';
+        setTimeout(resolve, 500);
+      });
+
+      let prompt = `🔮 *Consulta Mística Profissional* 🔮\n\n`;
+      prompt += `✨ *Resumo da Tiragem Sagrada* ✨\n`;
+      prompt += `• *Baralho*: ${baralho}\n`;
+      prompt += `• *Tipo de Leitura*: ${leitura === 'cruz' ? 'Cruz Celta (Análise Profunda)' : leitura + ' carta(s)'}\n`;
+      prompt += `• *Objetivo*: ${objetivo === 'conselho' ? 'Conselho Espiritual' : 'Resposta Sim/Não'}\n`;
+      prompt += `• *Pergunta*: "${pergunta}"\n\n`;
+
+      if (objetivo === 'conselho') {
+        prompt += `Como uma taróloga experiente, ofereça um conselho profundo e reflexivo baseado no baralho ${baralho}. Foque na sabedoria espiritual sem descrever cartas específicas. Seja compassiva e inspire transformação.`;
+      } else {
+        prompt += `Realize uma tiragem de ${leitura === 'cruz' ? 'Cruz Celta' : leitura + ' carta(s)'} do baralho ${baralho}. Interprete como uma taróloga profissional, revelando mensagens claras e significatos profundos.`;
+      }
+
+      // Exibir resultado
+      const div = document.getElementById('resultadoPrompt');
+      div.innerText = prompt;
+      div.style.display = 'block';
+
+      // Animação de expansão do container
+      await new Promise(resolve => {
+        container.style.maxHeight = container.scrollHeight + 'px';
+        setTimeout(resolve, 300);
+      });
+
+      // Criar efeito de partículas
+      criarParticulas();
+
+      // Rolagem suave para o resultado
+      div.scrollIntoView({ behavior: 'smooth' });
+
+      // Salvar cookie
+      document.cookie = "tarot_prompt=" + encodeURIComponent(prompt) + "; max-age=86400; path=/;";
+    }
+
+    // Efeito de partículas místicas
+    function criarParticulas() {
+      const colors = ['rgba(212, 175, 55, 0.6)', 'rgba(155, 89, 182, 0.5)', 'rgba(255, 255, 255, 0.4)'];
+      
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        const size = Math.random() * 4 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}vw`;
+        particle.style.top = `${Math.random() * 100}vh`;
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        const duration = Math.random() * 10 + 10;
+        const delay = Math.random() * 5;
+        particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+        
+        document.body.appendChild(particle);
+        
+        setTimeout(() => {
+          particle.remove();
+        }, (duration + delay) * 1000);
+      }
+    }
+
+    // Ajustar textarea no carregamento
+    window.addEventListener('DOMContentLoaded', () => {
+      textarea.style.height = 'auto';
+      textarea.style.height = (textarea.scrollHeight) + 'px';
+    });
+  </script>
+</body>
+</html>

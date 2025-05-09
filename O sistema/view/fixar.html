@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Fixar Mensagem - QR Mail 42</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 400px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      display: block;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #0062cc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Fixar Mensagem</h2>
+    <form method="POST">
+      <label>Mensagem:</label>
+      <textarea name="mensagem" required></textarea>
+
+      <label>Tema:</label>
+      <select name="tema">
+        <option value="1">Claro</option>
+        <option value="2">Escuro</option>
+      </select>
+
+      <label>
+        <input type="checkbox" name="is_single_view"> Mensagem de visualização única
+      </label>
+
+      <button type="submit">Salvar Mensagem</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Mail - Mensagens Personalizadas com QR Code | Experiências Digitais Memoráveis</title>
+  <meta name="description" content="Solução inovadora para mensagens personalizadas com QR Codes. Conecte correspondências físicas a conteúdos digitais exclusivos para clientes e eventos especiais.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Reset e variáveis */
+    :root {
+      --primary-color: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary-color: #3b82f6;
+      --accent-color: #1e40af;
+      --text-color: #1f2937;
+      --light-gray: #f9fafb;
+      --medium-gray: #e5e7eb;
+      --dark-gray: #6b7280;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--light-gray);
+      color: var(--text-color);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Tipografia */
+    h1, h2, h3, h4 {
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin-bottom: 1.25rem;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--primary-color);
+      transition: var(--transition);
+    }
+
+    a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Layout */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Cabeçalho */
+    header {
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+    }
+
+    .logo i {
+      margin-right: 0.5rem;
+      color: var(--secondary-color);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      font-weight: 500;
+      color: var(--text-color);
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary-color);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .cta-button {
+      background: var(--primary-color);
+      color: var(--white);
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .cta-button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: var(--white);
+      padding: 5rem 0;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .secondary-button {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--white);
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .secondary-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Seções */
+    .section {
+      padding: 5rem 0;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      color: var(--primary-color);
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--secondary-color);
+      border-radius: 2px;
+    }
+
+    /* Sobre */
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-image {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .about-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: var(--transition);
+    }
+
+    .about-image:hover img {
+      transform: scale(1.03);
+    }
+
+    /* Recursos */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      color: var(--secondary-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-title {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    /* Como funciona */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .step {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      background: var(--primary-color);
+      color: var(--white);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-weight: 600;
+    }
+
+    .step-content {
+      background: var(--white);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow-sm);
+      flex-grow: 1;
+    }
+
+    /* Contato */
+    .contact-section {
+      background: var(--white);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .contact-icon {
+      color: var(--secondary-color);
+      font-size: 1.2rem;
+      margin-top: 3px;
+    }
+
+    .contact-form {
+      background: var(--light-gray);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--medium-gray);
+      border-radius: 8px;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    /* Rodapé */
+    footer {
+      background: var(--text-color);
+      color: var(--white);
+      padding: 3rem 0 1.5rem;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .footer-logo i {
+      margin-right: 0.5rem;
+      color: var(--secondary-color);
+    }
+
+    .footer-about p {
+      opacity: 0.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      background: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+
+    .footer-links h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .footer-links h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: var(--secondary-color);
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+      padding-left: 5px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-bottom p {
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+
+    /* Responsividade */
+    @media (max-width: 992px) {
+      .about-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .about-image {
+        order: -1;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .section {
+        padding: 3rem 0;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .container {
+        padding: 0 1rem;
+      }
+      
+      .hero {
+        padding: 3rem 0;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .feature-card {
+        padding: 1.5rem;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Cabeçalho -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="#" class="logo">
+          <i class="fas fa-qrcode"></i>
+          QR Mail 42
+        </a>
+        <div class="nav-links">
+          <a href="#sobre">Sobre</a>
+          <a href="#recursos">Recursos</a>
+          <a href="#como-funciona">Como Funciona</a>
+
+        </div>
+        <a href="#contato" class="cta-button">Solicitar Demonstração</a>
+      </nav>
+    </div>
+  </header>
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1>Transforme Cada Presente em Uma Experiência Incrível</h1>
+
+      <p>Leve suas mensagens para outro nível com experiências digitais exclusivas, simples e rápidas.</p>
+      <div class="hero-buttons">
+        <a href="#contato" class="cta-button">Comece Agora</a>
+        <a href="#como-funciona" class="secondary-button">Veja Como Funciona</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Sobre -->
+  <section id="sobre" class="section">
+    <div class="container">
+      <h2 class="section-title">Sobre o QR Mail</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p>O QR Mail é uma solução inovadora que combina a elegância das correspondências físicas com a praticidade do mundo digital. Nossa tecnologia permite que você envie cartões, convites ou qualquer tipo de correspondência com um QR Code único que direciona o destinatário para um conteúdo digital exclusivo.</p>
+          <p>Ideal para empresas que desejam criar experiências marcantes para seus clientes, ou para eventos especiais como casamentos, aniversários e formaturas, onde cada detalhe conta.</p>
+          <p>Nossa plataforma oferece total personalização, desde o design do cartão físico até o conteúdo digital acessado pelo QR Code, garantindo uma experiência coesa e memorável.</p>
+        </div>
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Pessoa usando smartphone para escanear QR Code em cartão">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recursos -->
+  <section id="recursos" class="section" style="background: var(--light-gray);">
+    <div class="container">
+      <h2 class="section-title">Nossos Recursos</h2>
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <h3 class="feature-title">Segurança Garantida</h3>
+          <p>QR Codes criptografados com acesso restrito apenas ao destinatário, garantindo a privacidade do seu conteúdo especial.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-palette"></i>
+          </div>
+          <h3 class="feature-title">Design Personalizado</h3>
+          <p>Cartões totalmente customizáveis para refletir sua marca ou estilo pessoal, com opções de materiais premium.</p>
+        </div>
+        
+     
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-infinity"></i>
+          </div>
+          <h3 class="feature-title">Conteúdo Dinâmico</h3>
+          <p>Altere o conteúdo vinculado ao QR Code mesmo após o envio, mantendo sua mensagem sempre atualizada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ <!-- Como Funciona -->
+<section id="como-funciona" class="section">
+    <div class="container">
+      <h2 class="section-title">Como Funciona</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Envie Seu Conteúdo</h3>
+            <p>Fotos, vídeos, mensagens ou textos. Você escolhe!</p>
+          </div>
+        </div>
+  
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Personalize</h3>
+            <p>Use nossos templates ou peça algo 100% exclusivo.</p>
+          </div>
+        </div>
+  
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Receba Seus QR Codes</h3>
+            <p>Impressos, organizados e prontos pra usar.</p>
+          </div>
+        </div>
+  
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Compartilhe e Encante</h3>
+            <p>Seus QR Codes levam experiências únicas direto para quem importa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <!-- Contato -->
+  <section id="contato" class="section contact-section">
+    <div class="container">
+      <h2 class="section-title">Entre em Contato</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>Vamos conversar sobre seu projeto</h3>
+          <p>Estamos prontos para ajudar a criar experiências memoráveis para seus clientes, eventos especiais ou campanhas corporativas.</p>
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div>
+              <h4>Email</h4>
+              <a href="mailto:dev.paulo.murilo42@gmail.com">dev.paulo.murilo42@gmail.com</a>
+            </div>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div>
+              <h4>Telefone</h4>
+              <a href="tel:+5511912345678">(11) 91234-5678</a>
+            </div>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <h4>Horário Comercial</h4>
+              <p>Segunda a Sexta, 9h às 18h</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="contact-form">
+          <form>
+            <div class="form-group">
+              <label for="name" class="form-label">Nome Completo</label>
+              <input type="text" id="name" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="phone" class="form-label">Telefone (opcional)</label>
+              <input type="tel" id="phone" class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="message" class="form-label">Como podemos ajudar?</label>
+              <textarea id="message" class="form-control" required></textarea>
+            </div>
+            
+            <button type="submit" class="cta-button" style="width: 100%;">Enviar Mensagem</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-about">
+          <div class="footer-logo">
+            <i class="fas fa-qrcode"></i>
+            QR Mail
+          </div>
+          <p>Transformando mensagens físicas em experiências digitais memoráveis desde 2025.</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h3>Links Rápidos</h3>
+          <ul>
+            <li><a href="#sobre">Sobre Nós</a></li>
+            <li><a href="#recursos">Recursos</a></li>
+            <li><a href="#como-funciona">Como Funciona</a></li>
+            <li><a href="#contato">Contato</a></li>
+            <li><a href="#">Política de Privacidade</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h3>Serviços</h3>
+          <ul>
+            <li><a href="#">Cartões Corporativos</a></li>
+            <li><a href="#">Convites Especiais</a></li>
+            <li><a href="#">Campanhas de Marketing</a></li>
+            <li><a href="#">Soluções Personalizadas</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 QR Mail. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
