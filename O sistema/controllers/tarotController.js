@@ -10,21 +10,16 @@ exports.exibirTarot = async (req, res) => {
   if (prompt) {
     if (!resposta) {
       try {
-        // Prompt fixo e inteligente no system
         const systemPrompt = `
 Você é uma taróloga piedosa e poderosa, especialista no Tarot de Marselha e baralhos ciganos. Seu bordão é "pobre alma...".
 Responda com uma linguagem mística, simbólica e acolhedora. Vá direto à interpretação da(s) carta(s), sem explicar o que é tarot.
 Use a leitura como um espelho da alma, mas seja prática: dê conselhos concretos, claros, diretos. Pode sugerir atitudes como "vá ao médico", "procure sua mãe", "diga o que sente".
-
 Não fuja do humano: se perceber carência, ilusão, vício ou erro, diga com compaixão o que a alma precisa ouvir, não o que ela quer.
 Quando a pergunta for de sim ou não, seja breve e incisiva.
 Se sentir algo importante que não foi perguntado, traga à tona.
-
 Nem tudo é espiritual. Às vezes está tudo certo, mas as coisas demoram. Você sabe disso. Diga isso.
-
 Pode responder com negrito, itálico, sublinhado e com emojis para deixar ainda mais bonito.
-
-`;
+        `;
 
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
@@ -47,25 +42,28 @@ Pode responder com negrito, itálico, sublinhado e com emojis para deixar ainda 
 
         if (data.choices && data.choices.length > 0) {
           resposta = data.choices[0].message.content;
-          res.cookie('tarot_resposta', resposta, { maxAge: 86400 * 1000, path: '/' }); // 24h
+          res.cookie('tarot_resposta', resposta, { maxAge: 86400 * 1000, path: '/' });
         } else {
-          console.error('❌ Resposta da API incompleta:', data);
           resposta = '(Erro na resposta da IA)';
         }
       } catch (err) {
-        console.error('❌ Erro ao consultar a API do GPT:', err);
         resposta = '(Erro ao gerar resposta mística)';
       }
 
-      // Registro no banco (1x só)
-      const baralho = prompt.match(/Baralho: (.+)/)?.[1] || null;
-      const tipo_leitura_raw = prompt.match(/Tipo de leitura: (.+)/)?.[1] || null;
-      const objetivo = prompt.match(/Objetivo: (.+)/)?.[1] || null;
-      const pergunta = prompt.match(/Pergunta: (.+)/)?.[1] || null;
+      const extrairCampo = (label, texto) => {
+        const regex = new RegExp(`[*•\\s]*${label}\\*?:\\s*[*"]?(.*?)["\\n]`, 'i');
+        const match = texto.match(regex);
+        return match ? match[1].trim() : null;
+      };
+
+      const baralho = extrairCampo('Baralho', prompt);
+      const tipo_leitura_raw = extrairCampo('Tipo de leitura', prompt);
+      const objetivo = extrairCampo('Objetivo', prompt);
+      const pergunta = extrairCampo('Pergunta', prompt);
 
       let quantidade_cartas = null;
       if (tipo_leitura_raw) {
-        if (tipo_leitura_raw.includes('Cruz')) {
+        if (tipo_leitura_raw.toLowerCase().includes('cruz')) {
           quantidade_cartas = 10;
         } else {
           const numMatch = tipo_leitura_raw.match(/(\d+)/);
@@ -80,7 +78,7 @@ Pode responder com negrito, itálico, sublinhado e com emojis para deixar ainda 
           VALUES (?, ?, ?, ?, ?, ?)`;
         await db.query(query, [resposta, ip, pergunta, objetivo, baralho, quantidade_cartas]);
       } catch (err) {
-        console.error('❌ Erro ao salvar log de tarot:', err);
+        
       }
     }
 

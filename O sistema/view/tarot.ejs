@@ -569,6 +569,18 @@
   </style>
 </head>
 <body>
+  <div id="modalAviso" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8); color: #fff; z-index: 9999; display: none; align-items: center; justify-content: center;">
+            <div style="background-color: #1a052a; padding: 2rem; border-radius: 12px; max-width: 500px; text-align: center; box-shadow: 0 0 10px #000;">
+              <h2 style="margin-bottom: 1rem;">Sobre esta leitura</h2>
+              <p style="font-size: 0.9rem; line-height: 1.5;">
+                Esta experiência é gerada por um sistema de inteligência artificial e tem caráter simbólico, lúdico e informativo.
+As respostas fornecidas não devem ser interpretadas como aconselhamento profissional, diagnóstico, prescrição médica, orientação terapêutica ou substituição de suporte humano em qualquer área — médica, psicológica, jurídica, ou de outra natureza.
+Para quaisquer decisões de impacto pessoal, emocional ou legal, recomenda-se a busca de orientação qualificada junto a profissionais habilitados.
+              </p>
+              <button onclick="fecharModalAviso()" style="margin-top: 1rem; padding: 0.5rem 1rem; border: none; background-color: #6a3a9a; color: white; border-radius: 8px; cursor: pointer;">Fechar</button>
+            </div>
+          </div>
   <div class="estrelas" id="estrelas"></div>
   
   <div class="container">
@@ -640,11 +652,25 @@
       <div id="carregando" style="display: none;">
         🔮 Consultando os astros... aguarde... 🔮
       </div>
+      
     <% } %>
 
     <% if (promptSalvo) { %>
       <div class="resultado">
         <div class="resposta-mistica" id="respostaMarkdown"></div>
+        
+          
+          
+          
+          <script>
+            function abrirModalAviso() {
+              document.getElementById('modalAviso').style.display = 'flex';
+            }
+          
+            function fecharModalAviso() {
+              document.getElementById('modalAviso').style.display = 'none';
+            }
+          </script>
       </div>
       
       <script>
@@ -665,6 +691,10 @@
         });
       </script>
     <% } %>
+   
+    <p style="font-size: 0.75rem; text-align: center; opacity: 0.6; padding-top: 10px;">
+      Leitura simbólica gerada por IA. <a style="color:#d4a732" href="#" onclick="abrirModalAviso()">Saiba mais</a>
+      </p>
   </div>
 
   <script>
@@ -792,5 +822,6 @@
       location.reload();
     }
   </script>
+  
 </body>
 </html>
