@@ -2,22 +2,26 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>Recado das Cartas • QR Mail 42</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🔮 Tarô Místico - Consulta Profissional</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600&family=Marcellus+SC&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
-      --deep-purple: #1a0524;
-      --mystic-purple: #3d1255;
-      --light-purple: #6a3093;
-      --accent-purple: #9b59b6;
-      --gold: #d4af37;
-      --silver: #c0c0c0;
-      --white: #f8f8f8;
-      --shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      --roxo-profundo: #0d021a;
+      --roxo-escuro: #1a052a;
+      --roxo-medio: #3a1a6a;
+      --roxo-claro: #6a3a9a;
+      --roxo-neon: #9d4edd;
+      --dourado: #f5c542;
+      --dourado-claro: #f8d373;
+      --dourado-escuro: #d4a732;
+      --texto: #f0e6ff;
+      --texto-claro: #ffffff;
+      --sombra: rgba(0, 0, 0, 0.5);
+      --sombra-dourada: rgba(245, 197, 66, 0.3);
     }
 
     * {
@@ -27,165 +31,233 @@
     }
 
     body {
-      background-color: #0a0515;
-      color: var(--white);
-      font-family: 'Josefin Sans', sans-serif;
-      line-height: 1.6;
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--roxo-profundo);
+      color: var(--texto);
       min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: 20px;
-      overflow-x: hidden;
+      line-height: 1.6;
       position: relative;
+      overflow-x: hidden;
     }
 
-    /* Fundo estrelado animado */
-    body::before {
-      content: "";
+    /* Fundo estrelado */
+    .estrelas {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: 
-        radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%),
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><circle cx="50" cy="30" r="1.2" fill="white" opacity="0.8"/><circle cx="120" cy="80" r="0.8" fill="white" opacity="0.6"/><circle cx="250" cy="40" r="1" fill="white" opacity="0.7"/><circle cx="300" cy="120" r="1.5" fill="white" opacity="0.9"/><circle cx="180" cy="200" r="0.8" fill="white" opacity="0.5"/><circle cx="350" cy="180" r="1.2" fill="white" opacity="0.7"/><circle cx="80" cy="280" r="1" fill="white" opacity="0.6"/><circle cx="200" cy="320" r="1.3" fill="white" opacity="0.8"/><circle cx="320" cy="300" r="0.9" fill="white" opacity="0.5"/></svg>');
-      background-size: cover, auto;
-      z-index: -2;
-      animation: starsAnimation 60s linear infinite;
-    }
-
-    @keyframes starsAnimation {
-      0% { background-position: 0 0, 0 0; }
-      100% { background-position: 0 0, 400px 400px; }
-    }
-
-    /* Neblina cósmica sutil */
-    body::after {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(106, 48, 147, 0.15) 0%, transparent 25%),
-        radial-gradient(circle at 80% 70%, rgba(106, 48, 147, 0.15) 0%, transparent 25%);
       z-index: -1;
-      animation: nebulaPulse 20s ease infinite alternate;
+      overflow: hidden;
     }
 
-    @keyframes nebulaPulse {
-      0% { opacity: 0.3; }
-      100% { opacity: 0.7; }
+    .estrela {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      animation: twinkle var(--duration) infinite ease-in-out;
+      opacity: var(--opacity);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: var(--opacity); }
+      50% { opacity: calc(var(--opacity) * 0.5); }
     }
 
     .container {
-      max-width: 700px;
-      margin: 30px auto;
-      background: rgba(29, 6, 49, 0.85);
+      width: 100%;
+      max-width: 650px;
+      background: rgba(26, 5, 42, 0.85);
       backdrop-filter: blur(12px);
-      padding: 40px;
       border-radius: 20px;
-      box-shadow: 
-        0 10px 25px rgba(0, 0, 0, 0.4),
-        inset 0 0 15px rgba(155, 89, 182, 0.2);
-      border: 1px solid var(--gold);
+      padding: 30px;
+      box-shadow: 0 15px 40px var(--sombra),
+                  0 0 0 1px rgba(106, 58, 154, 0.3),
+                  0 0 30px rgba(157, 78, 221, 0.2);
+      animation: fadeIn 0.8s ease-out;
       position: relative;
       overflow: hidden;
-      transform: translateY(20px);
-      opacity: 0;
-      animation: fadeInUp 0.8s ease-out forwards;
-      transition: all 0.5s ease;
-    }
-
-    @keyframes fadeInUp {
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .container::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 20px;
-      padding: 1px;
-      background: linear-gradient(135deg, var(--accent-purple), var(--gold), var(--accent-purple));
-      -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
+      border: 1px solid var(--roxo-claro);
     }
 
     h1 {
-      text-align: center;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 2.2rem;
       margin-bottom: 30px;
-      font-family: 'Marcellus SC', serif;
-      font-weight: 400;
-      color: var(--gold);
-      font-size: 2.5rem;
-      text-shadow: 0 2px 10px rgba(155, 89, 182, 0.5);
+      color: var(--dourado);
+      text-align: center;
       position: relative;
       padding-bottom: 15px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+      letter-spacing: 1px;
     }
 
     h1::after {
       content: "";
       position: absolute;
       bottom: 0;
-      left: 25%;
-      right: 25%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 420px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--dourado), transparent);
     }
+
+    /* Contador de caracteres */
+    .contador-caracteres {
+      text-align: right;
+      font-size: 0.85rem;
+      margin-top: 5px;
+      color: var(--roxo-claro);
+    }
+
+    .contador-caracteres.alerta {
+      color: var(--dourado);
+    }
+
+    /* Estilos para markdown */
+    .resposta-mistica h1, 
+    .resposta-mistica h2, 
+    .resposta-mistica h3 {
+      font-family: 'Cinzel Decorative', serif;
+      color: var(--dourado);
+      margin: 20px 0 15px;
+    }
+
+    .resposta-mistica h1 {
+      font-size: 1.8rem;
+      border-bottom: 1px solid var(--roxo-claro);
+      padding-bottom: 8px;
+    }
+
+    .resposta-mistica h2 {
+      font-size: 1.5rem;
+    }
+
+    .resposta-mistica h3 {
+      font-size: 1.3rem;
+    }
+
+    .resposta-mistica strong {
+      color: var(--dourado);
+      font-weight: 600;
+      text-shadow: 0 0 5px rgba(245, 197, 66, 0.3);
+    }
+
+    .resposta-mistica em {
+      font-style: italic;
+      color: var(--texto-claro);
+    }
+
+    .resposta-mistica ul, 
+    .resposta-mistica ol {
+      padding-left: 25px;
+      margin: 15px 0;
+    }
+
+    .resposta-mistica li {
+      margin-bottom: 8px;
+    }
+
+    .resposta-mistica blockquote {
+      border-left: 3px solid var(--dourado);
+      padding-left: 15px;
+      margin: 15px 0;
+      color: var(--dourado-claro);
+      font-style: italic;
+    }
+
+    .resposta-mistica code {
+      background: rgba(58, 26, 106, 0.5);
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    .resposta-mistica pre {
+      background: rgba(26, 5, 42, 0.8);
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 15px 0;
+      border: 1px solid var(--roxo-medio);
+    }
+
+    .resposta-mistica a {
+      color: var(--dourado);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--dourado);
+      transition: all 0.3s;
+    }
+
+    .resposta-mistica a:hover {
+      color: var(--dourado-claro);
+      border-bottom: 1px solid var(--dourado-claro);
+    }
+
+    /* Efeito de digitação ChatGPT */
+    .resposta-mistica p, 
+    .resposta-mistica ul, 
+    .resposta-mistica ol, 
+    .resposta-mistica blockquote,
+    .resposta-mistica h1,
+    .resposta-mistica h2,
+    .resposta-mistica h3 {
+      opacity: 0;
+      animation: fadeInUp 0.5s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Sequência de animação para os elementos */
+    .resposta-mistica p:nth-child(1) { animation-delay: 0.1s; }
+    .resposta-mistica p:nth-child(2) { animation-delay: 0.3s; }
+    .resposta-mistica p:nth-child(3) { animation-delay: 0.5s; }
+    .resposta-mistica ul, 
+    .resposta-mistica ol { animation-delay: 0.7s; }
+    .resposta-mistica blockquote { animation-delay: 0.9s; }
+    .resposta-mistica h1 { animation-delay: 0.2s; }
+    .resposta-mistica h2 { animation-delay: 0.4s; }
+    .resposta-mistica h3 { animation-delay: 0.6s; }
 
     .bloco {
       margin-bottom: 25px;
-      position: relative;
-      animation: fadeIn 0.6s ease-out backwards;
-      animation-delay: 0.3s;
+      animation: slideUp 0.5s ease-out;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .bloco::after {
-      content: "";
-      position: absolute;
-      bottom: -10px;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(155, 89, 182, 0.3), transparent);
-    }
-
-    label {
-      font-weight: 500;
+    .bloco label {
       display: block;
-      margin-bottom: 12px;
-      color: var(--silver);
-      font-size: 1.1rem;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dourado-claro);
+      font-size: 1.05rem;
     }
 
     .radio-group {
       display: flex;
       flex-wrap: wrap;
       gap: 15px;
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .radio-option {
       position: relative;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .radio-option:hover {
-      transform: translateY(-3px);
+      flex: 1 1 calc(50% - 15px);
+      min-width: 120px;
     }
 
     .radio-option input {
@@ -193,142 +265,124 @@
       opacity: 0;
     }
 
-    .radio-label {
+    .radio-option label {
       display: flex;
       align-items: center;
-      padding: 12px 18px;
+      gap: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 12px 15px;
+      background: rgba(58, 26, 106, 0.3);
       border-radius: 8px;
-      background: rgba(61, 18, 85, 0.5);
-      border: 1px solid rgba(155, 89, 182, 0.3);
-      transition: all 0.3s ease;
+      border: 1px solid rgba(106, 58, 154, 0.5);
+      width: 100%;
+      margin: 0;
       font-weight: 400;
+      color: var(--texto);
     }
 
-    .radio-option input:checked + .radio-label {
-      background: var(--mystic-purple);
-      border-color: var(--accent-purple);
-      box-shadow: 0 0 15px rgba(155, 89, 182, 0.5);
-      transform: translateY(-2px);
+    .radio-option label:hover {
+      background: rgba(106, 58, 154, 0.3);
+      border-color: var(--dourado);
     }
 
-    .radio-option input:focus + .radio-label {
-      box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.3);
+    .radio-option input:checked + label {
+      background: rgba(245, 197, 66, 0.1);
+      border-color: var(--dourado);
+      color: var(--dourado-claro);
+      box-shadow: 0 0 0 1px var(--dourado);
     }
 
-    .radio-label i {
-      margin-right: 8px;
-      color: var(--gold);
-      font-size: 1.1em;
+    .radio-option input:focus + label {
+      box-shadow: 0 0 0 2px var(--dourado);
+    }
+
+    .radio-custom {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--roxo-claro);
+      border-radius: 50%;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radio-option input:checked + label .radio-custom {
+      background: var(--dourado);
+      border-color: var(--dourado);
+      box-shadow: 0 0 0 2px var(--roxo-escuro), 0 0 0 3px var(--dourado);
+    }
+
+    .radio-option input:checked + label .radio-custom::after {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: var(--roxo-escuro);
+      border-radius: 50%;
+    }
+
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      background: rgba(58, 26, 106, 0.4);
+      color: var(--texto-claro);
+      border: 1px solid var(--roxo-claro);
+      margin-top: 8px;
+      font-size: 1rem;
+      transition: all 0.3s;
+      font-family: 'Montserrat', sans-serif;
     }
 
     select {
-      width: 100%;
-      padding: 14px 18px;
-      border-radius: 8px;
-      border: 1px solid rgba(155, 89, 182, 0.5);
-      background: rgba(61, 18, 85, 0.7);
-      color: var(--white);
-      font-size: 1rem;
-      font-family: 'Josefin Sans', sans-serif;
       appearance: none;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4af37'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23f5c542' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 18px center;
-      background-size: 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+      background-position: right 14px center;
+      background-size: 12px;
     }
 
-    select:focus {
+    select:focus,
+    textarea:focus {
       outline: none;
-      border-color: var(--accent-purple);
-      box-shadow: 
-        0 0 0 3px rgba(155, 89, 182, 0.3),
-        inset 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .textarea-container {
-      position: relative;
-    }
-
-    .char-counter {
-      position: absolute;
-      top: -25px;
-      right: 0;
-      font-size: 0.8rem;
-      color: var(--silver);
-      transition: all 0.3s;
-    }
-
-    .char-counter.warning {
-      color: #ffcc00;
-      text-shadow: 0 0 5px rgba(255, 204, 0, 0.3);
-    }
-
-    .char-counter.danger {
-      color: #ff3333;
-      text-shadow: 0 0 5px rgba(255, 51, 51, 0.3);
+      border-color: var(--dourado);
+      box-shadow: 0 0 0 2px rgba(245, 197, 66, 0.3);
+      background: rgba(58, 26, 106, 0.6);
     }
 
     textarea {
-      width: 100%;
-      padding: 16px;
-      border-radius: 8px;
-      border: 1px solid rgba(155, 89, 182, 0.5);
-      background: rgba(61, 18, 85, 0.7);
-      color: var(--white);
-      font-size: 1rem;
-      font-family: 'Josefin Sans', sans-serif;
-      resize: none;
-      min-height: 140px;
-      transition: all 0.3s ease;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
-      line-height: 1.5;
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.6;
     }
 
-    textarea:focus {
-      outline: none;
-      border-color: var(--accent-purple);
-      box-shadow: 
-        0 0 0 3px rgba(155, 89, 182, 0.3),
-        inset 0 2px 6px rgba(0, 0, 0, 0.2);
-    }
-
-    .button-container {
-      text-align: center;
-      margin-top: 30px;
+    textarea::placeholder {
+      color: rgba(240, 230, 255, 0.5);
     }
 
     button {
-      padding: 16px 45px;
-      background: linear-gradient(135deg, var(--accent-purple), var(--light-purple));
-      color: white;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--dourado) 0%, var(--dourado-escuro) 100%);
       border: none;
-      border-radius: 50px;
+      color: #2a0a50;
+      font-weight: 600;
+      border-radius: 12px;
       cursor: pointer;
       font-size: 1.1rem;
-      font-weight: 500;
+      margin-top: 15px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px var(--sombra-dourada),
+                  0 2px 4px rgba(0, 0, 0, 0.2),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2);
       text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.4s ease;
-      box-shadow: 
-        0 4px 15px rgba(155, 89, 182, 0.4),
-        0 6px 30px rgba(155, 89, 182, 0.2);
+      letter-spacing: 0.5px;
+      font-family: 'Cinzel Decorative', serif;
       position: relative;
       overflow: hidden;
-      font-family: 'Josefin Sans', sans-serif;
-    }
-
-    button:hover {
-      transform: translateY(-3px);
-      box-shadow: 
-        0 6px 20px rgba(155, 89, 182, 0.6),
-        0 8px 35px rgba(155, 89, 182, 0.3);
-    }
-
-    button:active {
-      transform: translateY(1px);
     }
 
     button::before {
@@ -339,35 +393,54 @@
       width: 100%;
       height: 100%;
       background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: 0.6s;
+      transition: all 0.5s;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px var(--sombra-dourada),
+                  0 3px 6px rgba(0, 0, 0, 0.2),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
 
     button:hover::before {
       left: 100%;
     }
 
-    button i {
-      margin-right: 8px;
-      transition: transform 0.3s ease;
+    button:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 10px var(--sombra-dourada),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
 
-    button:hover i {
-      transform: rotate(15deg);
+    #carregando {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--dourado);
+      display: none;
+      position: relative;
+      padding: 20px;
+      background: rgba(58, 26, 106, 0.3);
+      border-radius: 10px;
+      border: 1px dashed var(--roxo-claro);
+    }
+
+    #carregando::after {
+      content: "✦";
+      position: absolute;
+      animation: pulse 2s infinite;
+      color: var(--dourado);
     }
 
     .resultado {
-      margin-top: 40px;
-      background: rgba(61, 18, 85, 0.7);
-      padding: 28px;
+      margin-top: 30px;
+      background: rgba(58, 26, 106, 0.3);
+      padding: 25px;
       border-radius: 15px;
-      white-space: pre-line;
-      border-left: 4px solid var(--gold);
-      box-shadow: 
-        0 5px 15px rgba(0, 0, 0, 0.3),
-        inset 0 0 10px rgba(155, 89, 182, 0.2);
-      display: none;
-      animation: fadeIn 0.6s ease-out;
+      border-left: 4px solid var(--dourado);
       position: relative;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
       overflow: hidden;
     }
 
@@ -377,267 +450,347 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), transparent 30%);
-      pointer-events: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--dourado), transparent);
     }
 
-    .resultado::after {
-      content: "🔮";
-      position: absolute;
-      top: -15px;
-      left: -15px;
-      font-size: 2.5rem;
-      filter: drop-shadow(0 0 8px rgba(155, 89, 182, 0.7));
-      opacity: 0.7;
-      animation: float 4s ease-in-out infinite;
-      z-index: 1;
+    .resposta-mistica {
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      overflow-x: auto;
+      font-size: 1.05rem;
+      line-height: 1.7;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(5deg); }
+    /* Efeito de brilho nas estrelas - agora mais suave */
+    .brilho-estrelas .estrela {
+      animation: brilho 2s cubic-bezier(0.4, 0, 0.2, 0.6) forwards, twinkle var(--duration) infinite ease-in-out;
     }
 
-    /* Efeito de partículas místicas */
-    .particle {
-      position: absolute;
-      background: rgba(212, 175, 55, 0.6);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 1;
-      animation: float 4s ease-in-out infinite;
+    @keyframes brilho {
+      0% { 
+        transform: scale(1); 
+        opacity: var(--opacity);
+      }
+      20% { 
+        transform: scale(3); 
+        opacity: 1;
+      }
+      80% { 
+        transform: scale(3); 
+        opacity: 1;
+      }
+      100% { 
+        transform: scale(1); 
+        opacity: var(--opacity);
+      }
+    }
+
+    /* Animações */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { 
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.3; transform: scale(0.8); }
     }
 
     /* Responsividade */
     @media (max-width: 768px) {
       .container {
-        padding: 30px;
+        padding: 25px;
       }
       
       h1 {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
       }
       
-      .radio-group {
-        gap: 12px;
+      h1::after {
+        width: 300px;
       }
       
-      button {
-        width: 100%;
-        padding: 16px;
+      .radio-option {
+        flex: 1 1 100%;
+      }
+      
+      .resposta-mistica h1 {
+        font-size: 1.5rem;
+      }
+      
+      .resposta-mistica h2 {
+        font-size: 1.3rem;
       }
     }
 
     @media (max-width: 480px) {
-      body {
-        padding: 15px;
-      }
-      
       .container {
-        padding: 25px 20px;
+        padding: 20px;
+        border-radius: 15px;
       }
-      
+
       h1 {
-        font-size: 1.9rem;
+        font-size: 1.6rem;
+        padding-bottom: 10px;
       }
       
-      label {
-        font-size: 1rem;
+      h1::after {
+        width: 200px;
+      }
+
+      select,
+      textarea,
+      button {
+        padding: 12px;
       }
       
-      .radio-label {
-        padding: 10px 15px;
+      .radio-option label {
+        padding: 10px 12px;
+      }
+      
+      .resposta-mistica h1 {
+        font-size: 1.3rem;
       }
     }
   </style>
 </head>
 <body>
+  <div class="estrelas" id="estrelas"></div>
+  
   <div class="container">
-    <h1><i class="fas fa-crystal-ball"></i> Consulta Mística</h1>
+    <h1>✦ Recado das Cartas ✦</h1>
 
     <% if (!promptSomente) { %>
-      <div class="bloco">
-        <label>Escolha o baralho:</label>
-        <div class="radio-group">
-          <div class="radio-option">
-            <input type="radio" id="tarot" name="baralho" value="Tarô" checked>
-            <label for="tarot" class="radio-label">
-              <i class="fas fa-moon"></i> Tarô
-            </label>
-          </div>
-          <div class="radio-option">
-            <input type="radio" id="cigano" name="baralho" value="Cigano">
-            <label for="cigano" class="radio-label">
-              <i class="fas fa-star"></i> Cigano
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="bloco">
-        <label for="tipoLeitura">Tipo de leitura:</label>
-        <select id="tipoLeitura">
-          <option value="1">1 carta - Visão Geral</option>
-          <option value="3">3 cartas - Passado, Presente, Futuro</option>
-          <option value="9">9 cartas - Círculo Cármico</option>
-          <option value="cruz">Cruz Celta - Análise Profunda</option>
-        </select>
-      </div>
-
-      <div class="bloco">
-        <label>Objetivo da leitura:</label>
-        <div class="radio-group">
-          <div class="radio-option">
-            <input type="radio" id="simnao" name="objetivo" value="simnao" checked>
-            <label for="simnao" class="radio-label">
-              <i class="fas fa-question"></i> Sim ou Não
-            </label>
-          </div>
-          <div class="radio-option">
-            <input type="radio" id="conselho" name="objetivo" value="conselho">
-            <label for="conselho" class="radio-label">
-              <i class="fas fa-hand-holding-heart"></i> Conselho
-            </label>
+      <div id="formulario">
+        <div class="bloco">
+          <label>Escolha o baralho:</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="baralho" value="Tarô" id="tarot" checked>
+              <label for="tarot">
+                <span class="radio-custom"></span>
+                <span>Tarô</span>
+              </label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="baralho" value="Cigano" id="cigano">
+              <label for="cigano">
+                <span class="radio-custom"></span>
+                <span>Cigano</span>
+              </label>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="bloco">
-        <div class="textarea-container">
-          <label for="pergunta">Sua pergunta mística:</label>
-          <span id="charCount" class="char-counter">255 caracteres restantes</span>
-          <textarea id="pergunta" maxlength="255" placeholder="Digite aqui sua pergunta para o universo..."></textarea>
+        <div class="bloco">
+          <label for="tipoLeitura">Tipo de leitura:</label>
+          <select id="tipoLeitura">
+            <option value="1">1 carta - Visão Geral</option>
+            <option value="3">3 cartas - Passado, Presente, Futuro</option>
+            <option value="9">9 cartas - Círculo de Sabedoria</option>
+            <option value="cruz">Cruz Celta - Análise Profunda</option>
+          </select>
         </div>
-      </div>
 
-      <div class="button-container">
-        <button onclick="gerarPrompt()">
-          <i class="fas fa-magic"></i> Revelar Resposta
+        <div class="bloco">
+          <label>Objetivo da consulta:</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="objetivo" value="simnao" id="simnao" checked>
+              <label for="simnao">
+                <span class="radio-custom"></span>
+                <span>Sim ou Não</span>
+              </label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="objetivo" value="conselho" id="conselho">
+              <label for="conselho">
+                <span class="radio-custom"></span>
+                <span>Conselho Espiritual</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="bloco">
+          <label for="pergunta">Sua pergunta:</label>
+          <textarea id="pergunta" maxlength="255" placeholder="Escreva sua pergunta para o universo... (máx. 255 caracteres)"></textarea>
+          <div class="contador-caracteres" id="contador">255 caracteres restantes</div>
+        </div>
+
+        <button id="botaoGerar" onclick="gerarPrompt()">
+          <span>Revelar Resposta</span>
         </button>
+      </div>
+
+      <div id="carregando" style="display: none;">
+        🔮 Consultando os astros... aguarde... 🔮
       </div>
     <% } %>
 
-    <div class="resultado" id="resultadoPrompt" style="display: <%= promptSalvo ? 'block' : 'none' %>;">
-      <%= promptSalvo %>
-    </div>
+    <% if (promptSalvo) { %>
+      <div class="resultado">
+        <div class="resposta-mistica" id="respostaMarkdown"></div>
+      </div>
+      
+      <script>
+        // Converter markdown para HTML quando a página carrega
+        document.addEventListener('DOMContentLoaded', function() {
+          const respostaMarkdown = `<%= promptSalvo %>`;
+          const respostaHTML = marked.parse(respostaMarkdown);
+          const container = document.getElementById('respostaMarkdown');
+          
+          // Efeito de digitação
+          container.innerHTML = respostaHTML;
+          
+          // Mostrar container com fade in
+          container.style.animation = 'fadeIn 0.8s ease-out forwards';
+          
+          // Ativar brilho nas estrelas por 2 segundos
+          brilharEstrelas();
+        });
+      </script>
+    <% } %>
   </div>
 
   <script>
-    // Contador de caracteres dinâmico
-    const textarea = document.getElementById('pergunta');
-    const charCounter = document.getElementById('charCount');
-    const maxLength = 255;
-    const container = document.querySelector('.container');
-
-    textarea.addEventListener('input', function() {
-      const remaining = maxLength - this.value.length;
-      charCounter.textContent = `${remaining} caracteres restantes`;
-      
-      if (remaining < 30) {
-        charCounter.className = 'char-counter warning';
-      } else if (remaining < 0) {
-        charCounter.className = 'char-counter danger';
-      } else {
-        charCounter.className = 'char-counter';
+    // Configuração do Marked (Markdown parser)
+    marked.setOptions({
+      breaks: true,
+      gfm: true,
+      highlight: function(code, lang) {
+        return code;
       }
-      
-      this.style.height = 'auto';
-      this.style.height = (this.scrollHeight) + 'px';
     });
 
+    // Criar estrelas no fundo
+    function criarEstrelas() {
+      const estrelas = document.getElementById('estrelas');
+      const count = 150;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      
+      for (let i = 0; i < count; i++) {
+        const estrela = document.createElement('div');
+        estrela.className = 'estrela';
+        
+        // Tamanho aleatório entre 1 e 3px
+        const size = Math.random() * 2 + 1;
+        estrela.style.width = `${size}px`;
+        estrela.style.height = `${size}px`;
+        
+        // Posição aleatória
+        estrela.style.left = `${Math.random() * width}px`;
+        estrela.style.top = `${Math.random() * height}px`;
+        
+        // Opacidade aleatória
+        const opacity = Math.random() * 0.8 + 0.2;
+        estrela.style.setProperty('--opacity', opacity);
+        
+        // Duração da animação aleatória
+        const duration = `${Math.random() * 5 + 3}s`;
+        estrela.style.setProperty('--duration', duration);
+        
+        estrelas.appendChild(estrela);
+      }
+    }
+
+    // Efeito de brilho nas estrelas - agora mais suave
+    function brilharEstrelas() {
+      const estrelas = document.getElementById('estrelas');
+      estrelas.classList.add('brilho-estrelas');
+      
+      setTimeout(() => {
+        estrelas.classList.remove('brilho-estrelas');
+      }, 2500); // 2.5 segundos
+    }
+
+    // Contador de caracteres
+    function atualizarContador() {
+      const textarea = document.getElementById('pergunta');
+      const contador = document.getElementById('contador');
+      const maxLength = 255;
+      const remaining = maxLength - textarea.value.length;
+      
+      contador.textContent = `${remaining} caracteres restantes`;
+      
+      if (remaining < 30) {
+        contador.classList.add('alerta');
+      } else {
+        contador.classList.remove('alerta');
+      }
+    }
+
+    // Inicializar quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+      criarEstrelas();
+      
+      // Configurar contador de caracteres
+      const textarea = document.getElementById('pergunta');
+      if (textarea) {
+        textarea.addEventListener('input', atualizarContador);
+        atualizarContador(); // Atualizar contador inicial
+      }
+    });
+
+    window.addEventListener('resize', criarEstrelas);
+
     async function gerarPrompt() {
+      const botao = document.getElementById('botaoGerar');
+      const form = document.getElementById('formulario');
+      const carregando = document.getElementById('carregando');
+
+      // Ativar efeito de brilho nas estrelas
+      brilharEstrelas();
+
+      botao.disabled = true;
+      form.style.opacity = '0.5';
+      form.style.pointerEvents = 'none';
+      carregando.style.display = 'block';
+
       const baralho = document.querySelector('input[name="baralho"]:checked').value;
       const leitura = document.getElementById('tipoLeitura').value;
       const objetivo = document.querySelector('input[name="objetivo"]:checked').value;
       const pergunta = document.getElementById('pergunta').value.trim();
 
       if (!pergunta) {
-        alert('Por favor, formule sua pergunta para o universo.');
+        alert('Por favor, escreva sua pergunta para o universo.');
+        botao.disabled = false;
+        form.style.opacity = '1';
+        form.style.pointerEvents = 'auto';
+        carregando.style.display = 'none';
         return;
       }
 
-      if (pergunta.length > maxLength) {
-        alert(`Sua pergunta excede o limite de ${maxLength} caracteres. Por favor, seja mais conciso.`);
-        return;
-      }
-
-      // Animação de contração do container
-      container.style.maxHeight = container.scrollHeight + 'px';
-      container.style.overflow = 'hidden';
-      
-      await new Promise(resolve => {
-        container.style.transition = 'all 0.5s ease';
-        container.style.maxHeight = '400px';
-        setTimeout(resolve, 500);
-      });
-
-      let prompt = `🔮 *Consulta Mística Profissional* 🔮\n\n`;
-      prompt += `✨ *Resumo da Tiragem Sagrada* ✨\n`;
+      let prompt = `✦ *O universo fala com quem escuta...* ✦\n\n`;
       prompt += `• *Baralho*: ${baralho}\n`;
-      prompt += `• *Tipo de Leitura*: ${leitura === 'cruz' ? 'Cruz Celta (Análise Profunda)' : leitura + ' carta(s)'}\n`;
-      prompt += `• *Objetivo*: ${objetivo === 'conselho' ? 'Conselho Espiritual' : 'Resposta Sim/Não'}\n`;
+      prompt += `• *Tipo de Leitura*: ${leitura === 'cruz' ? 'Cruz Celta' : leitura + ' carta(s)'}\n`;
+      prompt += `• *Objetivo*: ${objetivo === 'conselho' ? 'Conselho Espiritual' : 'Sim ou Não'}\n`;
       prompt += `• *Pergunta*: "${pergunta}"\n\n`;
 
       if (objetivo === 'conselho') {
-        prompt += `Como uma taróloga experiente, ofereça um conselho profundo e reflexivo baseado no baralho ${baralho}. Foque na sabedoria espiritual sem descrever cartas específicas. Seja compassiva e inspire transformação.`;
+        prompt += `Como uma taróloga experiente, ofereça um conselho profundo baseado no baralho ${baralho}. Seja compassiva e ofereça orientação clara.`;
       } else {
-        prompt += `Realize uma tiragem de ${leitura === 'cruz' ? 'Cruz Celta' : leitura + ' carta(s)'} do baralho ${baralho}. Interprete como uma taróloga profissional, revelando mensagens claras e significatos profundos.`;
+        prompt += `Realize uma tiragem de ${leitura === 'cruz' ? 'Cruz Celta' : leitura + ' carta(s)'} com o baralho ${baralho}. Interprete de forma espiritual e clara, considerando a pergunta feita.`;
       }
 
-      // Exibir resultado
-      const div = document.getElementById('resultadoPrompt');
-      div.innerText = prompt;
-      div.style.display = 'block';
-
-      // Animação de expansão do container
-      await new Promise(resolve => {
-        container.style.maxHeight = container.scrollHeight + 'px';
-        setTimeout(resolve, 300);
-      });
-
-      // Criar efeito de partículas
-      criarParticulas();
-
-      // Rolagem suave para o resultado
-      div.scrollIntoView({ behavior: 'smooth' });
-
-      // Salvar cookie
       document.cookie = "tarot_prompt=" + encodeURIComponent(prompt) + "; max-age=86400; path=/;";
+      location.reload();
     }
-
-    // Efeito de partículas místicas
-    function criarParticulas() {
-      const colors = ['rgba(212, 175, 55, 0.6)', 'rgba(155, 89, 182, 0.5)', 'rgba(255, 255, 255, 0.4)'];
-      
-      for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        const size = Math.random() * 4 + 2;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${Math.random() * 100}vw`;
-        particle.style.top = `${Math.random() * 100}vh`;
-        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-        
-        const duration = Math.random() * 10 + 10;
-        const delay = Math.random() * 5;
-        particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
-        
-        document.body.appendChild(particle);
-        
-        setTimeout(() => {
-          particle.remove();
-        }, (duration + delay) * 1000);
-      }
-    }
-
-    // Ajustar textarea no carregamento
-    window.addEventListener('DOMContentLoaded', () => {
-      textarea.style.height = 'auto';
-      textarea.style.height = (textarea.scrollHeight) + 'px';
-    });
   </script>
 </body>
 </html>
