@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <link rel="icon" href="/img/ico.png" type="image/png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mensagem da Sorte 🍀</title>
@@ -36,11 +37,47 @@
       position: relative;
     }
     
+    /* Splash Screen */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease;
+    }
+    
+    .splash-screen h2 {
+      font-size: 2rem;
+      color: var(--dark);
+      margin-bottom: 20px;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .splash-screen p {
+      font-size: 1.2rem;
+      color: var(--dark);
+      opacity: 0.8;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+    
     /* Emojis flutuantes no fundo */
     .floating-emoji {
       position: fixed;
-      font-size: 28px;
-      opacity: 0.08;
+      font-size: 32px;
+      opacity: 0.1;
       z-index: -1;
       animation: float 8s infinite ease-in-out;
       pointer-events: none;
@@ -58,11 +95,11 @@
     
     .container {
       background: var(--paper);
-      border-radius: 16px;
+      border-radius: 20px;
       padding: 40px 30px;
       text-align: center;
       box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-      max-width: 600px;
+      max-width: 650px;
       width: 100%;
       position: relative;
       overflow: hidden;
@@ -70,78 +107,111 @@
     }
     
     h1 {
-      font-size: 2.3rem;
+      font-size: 2.2rem;
       color: var(--dark);
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       font-weight: 700;
-      position: relative;
-      display: inline-block;
-    }
-    
-    h1::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
-      background: var(--accent);
-      border-radius: 3px;
     }
     
     .message-container {
-      margin: 30px 0;
-      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
     
-    .scroll-wrapper {
+    .present-box {
+      width: 160px;
+      height: 160px;
+      background-image: url('/img/presente.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
       position: relative;
-      animation: scrollUnroll 2s ease-out forwards;
-      transform-origin: center;
-      opacity: 0;
     }
     
-    @keyframes scrollUnroll {
-      0% {
-        transform: scaleX(0);
-        opacity: 0;
-      }
-      100% {
-        transform: scaleX(1);
-        opacity: 1;
-      }
+    .present-box.shake {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    
+    .shake-instruction {
+      margin-top: 15px;
+      font-size: 1rem;
+      color: var(--dark);
+      opacity: 0.7;
+      font-weight: 600;
+      transition: opacity 0.5s ease;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+      20%, 40%, 60%, 80% { transform: translateX(8px); }
+    }
+    
+    .present-box.open {
+      animation: openPresent 1s forwards;
+    }
+    
+    @keyframes openPresent {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; display: none; }
+    }
+    
+    .frase-container {
+      width: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      margin-bottom: 5px;
+    }
+    
+    .frase-container.show {
+      display: flex;
+      opacity: 1;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
     p.frase {
       font-size: 1.3rem;
       margin: 0;
       color: var(--text);
-      line-height: 1.6;
-      position: relative;
-      padding: 30px;
+      line-height: 1.5;
+      padding: 20px;
       background: white;
       border-radius: 8px;
-      box-shadow: 
-        0 2px 4px rgba(0,0,0,0.05),
-        inset 0 0 0 1px rgba(0,0,0,0.05);
-      border-left: 4px solid var(--accent);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       font-weight: 400;
+      width: 100%;
+      border: 2px solid var(--primary);
     }
     
     .numbers-section {
-      margin-top: 40px;
+      margin-top: 20px;
       opacity: 0;
-      animation: fadeIn 0.8s 1.5s forwards;
+      display: none;
+    }
+    
+    .numbers-section.show {
+      display: block;
+      animation: fadeIn 0.8s 0.5s forwards;
     }
     
     .numbers-label {
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: var(--dark);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
     }
     
     .numeros {
@@ -158,9 +228,9 @@
       align-items: center;
       background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
       color: var(--dark);
-      font-size: 0.9rem;
-      width: 36px;
-      height: 36px;
+      font-size: 1.1rem;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       font-weight: 700;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -168,7 +238,6 @@
       cursor: default;
       opacity: 0;
       transform: scale(0.5);
-      border: 2px solid rgba(255, 255, 255, 0.3);
     }
     
     .numero-visible {
@@ -196,53 +265,61 @@
     }
     
     .footer {
-      margin-top: 40px;
+      margin-top: 30px;
       font-size: 0.9rem;
       color: var(--text);
       opacity: 0.8;
-      position: relative;
-      padding-top: 20px;
     }
     
-    .footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      opacity: 0;
+      z-index: 1000;
+      pointer-events: none;
+      animation: confettiFall 3s ease-in forwards;
+      font-size: 18px;
+    }
+    
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(calc(100vh + 100px)) rotate(360deg);
+        opacity: 0;
+      }
     }
     
     /* Responsividade */
     @media (max-width: 768px) {
-      .container {
-        padding: 30px 20px;
-      }
-      
       h1 {
         font-size: 2rem;
       }
       
       p.frase {
         font-size: 1.1rem;
-        padding: 25px 20px;
+        padding: 15px;
       }
       
-      .floating-emoji {
-        font-size: 22px;
-      }
-      
-      .numero {
-        width: 34px;
-        height: 34px;
+      .present-box {
+        width: 140px;
+        height: 140px;
       }
     }
     
     @media (max-width: 480px) {
       .container {
-        padding: 25px 15px;
+        padding: 30px 20px;
       }
       
       h1 {
@@ -251,129 +328,280 @@
       
       p.frase {
         font-size: 1rem;
-        padding: 20px 15px;
       }
       
-      .floating-emoji {
-        font-size: 18px;
-        opacity: 0.06;
+      .present-box {
+        width: 120px;
+        height: 120px;
       }
       
-      .numero {
-        width: 32px;
-        height: 32px;
-        font-size: 0.85rem;
+      .shake-instruction {
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
   <!-- Emojis flutuantes no fundo -->
-  <div class="floating-emoji">🍯</div>
+  <div class="floating-emoji">🍀</div>
+  <div class="floating-emoji">🎁</div>
   <div class="floating-emoji">✨</div>
-  <div class="floating-emoji">🔮</div>
+  <div class="floating-emoji">🌟</div>
   <div class="floating-emoji">🌟</div>
   
-  <div class="container">
-    <h1>Sua Mensagem Especial</h1>
+  <!-- Splash Screen -->
+  <div class="splash-screen" id="splashScreen">
+    <h2>Curioso sobre sua sorte?</h2>
+    <p>(toque para continuar)</p>
+  </div>
+  
+  <div class="container" id="mainContainer" style="display: none;">
+    <h1>Sorte do dia</h1>
     
     <div class="message-container">
-      <div class="scroll-wrapper">
+      <div class="present-box" id="presentBox"></div>
+      <p class="shake-instruction" id="shakeInstruction">Agite seu celular para abrir o presente!</p>
+      <div class="frase-container" id="fraseContainer">
         <p class="frase"><%= frase %></p>
       </div>
     </div>
     
-    <div class="numbers-section">
+    <div class="numbers-section" id="numbersSection">
       <div class="numbers-label">Números da Sorte</div>
       <div class="numeros">
-        <% numeros.forEach(function(num, index) { %>
-          <span class="numero" style="animation-delay: <%= 1.5 + index * 0.1 %>s"><%= num %></span>
+        <% numeros.slice(0, 5).forEach(function(num, index) { %>
+          <span class="numero" style="animation-delay: <%= index * 0.1 %>s"><%= num %></span>
         <% }); %>
       </div>
     </div>
     
     <div class="footer">
-      <p>Uma mensagem especial do QR Mail 42 💌</p>
+      <p>Uma mensagem especial do <a href="https://qrmail42.wtf" target="_blank">QR Mail 42</a> 💌</p>
     </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Animação dos números
-      const numeros = document.querySelectorAll('.numero');
-      numeros.forEach((num, index) => {
-        setTimeout(() => {
-          num.classList.add('numero-visible');
-          
-          // Efeito ao passar o mouse
-          num.addEventListener('mouseenter', () => {
-            num.style.transform = 'scale(1.15)';
-            num.style.boxShadow = '0 6px 12px rgba(0,0,0,0.15)';
-          });
-          
-          num.addEventListener('mouseleave', () => {
-            num.style.transform = 'scale(1)';
-            num.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
-          });
-        }, 1500 + index * 100);
-      });
+      const splashScreen = document.getElementById('splashScreen');
+      const mainContainer = document.getElementById('mainContainer');
+      const presentBox = document.getElementById('presentBox');
+      const fraseContainer = document.getElementById('fraseContainer');
+      const numbersSection = document.getElementById('numbersSection');
+      const shakeInstruction = document.getElementById('shakeInstruction');
+      let isOpened = false;
+      let deviceSupportsShake = false;
       
-      // Efeito de confete
-      const container = document.querySelector('.container');
-      container.addEventListener('click', function(e) {
-        if (e.target.classList.contains('numero')) {
-          createConfetti(e.target);
-        }
-      });
+      // Mostrar splash screen inicialmente
+      splashScreen.style.display = 'flex';
+      mainContainer.style.display = 'none';
       
-      function createConfetti(element) {
-        const colors = ['#FFC107', '#FFA000', '#FF8F00', '#FFD54F', '#FFE082'];
+      // Fechar splash screen ao clicar
+      splashScreen.addEventListener('click', function() {
+        splashScreen.style.opacity = '0';
         
-        for (let i = 0; i < 12; i++) {
+        // Testar suporte ao shake durante a animação de fade
+        setTimeout(() => {
+          testShakeSupport();
+        }, 100);
+        
+        setTimeout(() => {
+          splashScreen.style.display = 'none';
+          mainContainer.style.display = 'block';
+        }, 500);
+      });
+      
+      
+      // Função para testar se o dispositivo suporta shake
+      // Função para testar se o dispositivo suporta shake
+function testShakeSupport() {
+  // Verifica se é um dispositivo iOS (iPhone, iPad, iPod)
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  
+  // Verifica se é um dispositivo Android
+  const isAndroid = /Android/.test(navigator.userAgent);
+  
+  // Dispositivos iOS não suportam shake sem permissão especial
+  if (isIOS) {
+    deviceSupportsShake = false;
+    shakeInstruction.textContent = "Clique no presente para liberar a mensagem";
+  } 
+  // Android suporta shake
+  else if (isAndroid && window.DeviceMotionEvent) {
+    deviceSupportsShake = true;
+    shakeInstruction.textContent = "Agite seu celular para abrir o presente!";
+  } 
+  // Qualquer outro dispositivo (desktop, etc)
+  else {
+    deviceSupportsShake = false;
+    shakeInstruction.textContent = "Clique no presente para liberar a mensagem";
+  }
+}
+      
+      // Função para vibrar o dispositivo (apenas quando o presente abre)
+      function vibrateDevice() {
+        if ('vibrate' in navigator) {
+          try {
+            navigator.vibrate(420); // 0.42s de vibração
+          } catch (e) {
+            console.error('Erro ao vibrar:', e);
+          }
+        }
+      }
+      
+      // Função para criar confetes
+      function createConfetti() {
+        const colors = ['#FFC107', '#FFA000', '#FF8F00', '#FFD54F', '#FFE082'];
+        const emojis = ['⭐'];
+        
+        for (let i = 0; i < 50; i++) {
           setTimeout(() => {
             const confetti = document.createElement('div');
-            confetti.innerHTML = ['✨', '🌟', '⭐', '💫', '🔶'][Math.floor(Math.random() * 5)];
-            confetti.style.position = 'fixed';
-            confetti.style.left = element.getBoundingClientRect().left + element.offsetWidth/2 + 'px';
-            confetti.style.top = element.getBoundingClientRect().top + element.offsetHeight/2 + 'px';
-            confetti.style.fontSize = (Math.random() * 12 + 8) + 'px';
+            confetti.className = 'confetti';
+            confetti.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            confetti.style.left = Math.random() * window.innerWidth + 'px';
+            confetti.style.top = '-50px';
             confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.pointerEvents = 'none';
-            confetti.style.zIndex = '1000';
-            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-            confetti.style.opacity = '1';
+            confetti.style.animationDuration = (2 + Math.random() * 3) + 's';
+            confetti.style.animationDelay = (Math.random() * 0.5) + 's';
             
             document.body.appendChild(confetti);
             
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = 2 + Math.random() * 3;
-            const xVel = Math.cos(angle) * velocity;
-            const yVel = Math.sin(angle) * velocity;
-            
-            let posX = parseFloat(confetti.style.left);
-            let posY = parseFloat(confetti.style.top);
-            let opacity = 1;
-            
-            const animate = () => {
-              posX += xVel;
-              posY += yVel + 0.2; // Gravity
-              opacity -= 0.01;
-              
-              confetti.style.left = posX + 'px';
-              confetti.style.top = posY + 'px';
-              confetti.style.opacity = opacity;
-              
-              if (opacity > 0) {
-                requestAnimationFrame(animate);
-              } else {
-                confetti.remove();
-              }
-            };
-            
-            requestAnimationFrame(animate);
+            setTimeout(() => {
+              confetti.remove();
+            }, 3000);
           }, i * 50);
         }
       }
+      
+      // Função para abrir o presente
+      function openPresent() {
+        if (isOpened) return;
+        
+        isOpened = true;
+        presentBox.classList.add('open');
+        createConfetti();
+        
+        // Esconder instrução de chacoalhar junto com a abertura do presente
+        shakeInstruction.style.opacity = '0';
+        
+        setTimeout(() => {
+          presentBox.style.display = 'none';
+          fraseContainer.classList.add('show');
+          numbersSection.classList.add('show');
+          
+          // Vibração única de 0.42s quando a sorte é revelada
+          vibrateDevice();
+          
+          // Mostrar números com atraso
+          const numeros = document.querySelectorAll('.numero');
+          numeros.forEach((num, index) => {
+            setTimeout(() => {
+              num.classList.add('numero-visible');
+            }, index * 100);
+          });
+        }, 800);
+      }
+      
+      // Abrir ao clicar no presente
+      presentBox.addEventListener('click', function() {
+        if (!isOpened) {
+          // Animação de shake ao clicar
+          presentBox.classList.remove('shake');
+          void presentBox.offsetWidth;
+          presentBox.classList.add('shake');
+          
+          // Abrir após o shake
+          setTimeout(openPresent, 500);
+        }
+      });
+      
+      // Abrir ao sacudir o celular (apenas se suportado)
+      if (window.DeviceMotionEvent) {
+        let lastX = null, lastY = null, lastZ = null;
+        let shakeCount = 0;
+        let lastShakeTime = 0;
+        
+        window.addEventListener('devicemotion', function(e) {
+          // Só processa shake se o dispositivo suportar
+          if (!deviceSupportsShake) return;
+          
+          const acceleration = e.accelerationIncludingGravity;
+          const x = acceleration.x;
+          const y = acceleration.y;
+          const z = acceleration.z;
+          
+          if (lastX !== null && lastY !== null && lastZ !== null) {
+            const deltaX = Math.abs(x - lastX);
+            const deltaY = Math.abs(y - lastY);
+            const deltaZ = Math.abs(z - lastZ);
+            
+            if (deltaX + deltaY + deltaZ > 15) {
+              const currentTime = new Date().getTime();
+              if (currentTime - lastShakeTime > 500) {
+                shakeCount++;
+                lastShakeTime = currentTime;
+                
+                // Animação de shake
+                presentBox.classList.remove('shake');
+                void presentBox.offsetWidth;
+                presentBox.classList.add('shake');
+                
+                if (shakeCount > 2 && !isOpened) {
+                  openPresent();
+                }
+              }
+            }
+          }
+          
+          lastX = x;
+          lastY = y;
+          lastZ = z;
+        });
+      }
+      
+      // Verificar cookie para evitar múltiplas sortes no mesmo dia
+      function checkCookie() {
+        const today = new Date().toDateString();
+        const lastFortuneDate = getCookie('lastFortuneDate');
+        
+        if (lastFortuneDate === today) {
+          // Já sorteou hoje, mostrar mensagem
+          openPresent();
+          presentBox.style.display = 'none';
+          shakeInstruction.style.display = 'none';
+        }
+        
+        // Setar cookie com a data de hoje
+        setCookie('lastFortuneDate', today, 1);
+      }
+      
+      // Funções auxiliares para cookies
+      function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 12 * 60 * 60 * 1000));
+        const expires = "expires=" + date.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+      }
+      
+      function getCookie(name) {
+        const cookieName = name + "=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const cookieArray = decodedCookie.split(';');
+        for(let i = 0; i < cookieArray.length; i++) {
+          let cookie = cookieArray[i];
+          while (cookie.charAt(0) === ' ') {
+            cookie = cookie.substring(1);
+          }
+          if (cookie.indexOf(cookieName) === 0) {
+            return cookie.substring(cookieName.length, cookie.length);
+          }
+        }
+        return "";
+      }
+      
+      // Verificar cookie quando a página carrega
+      checkCookie();
     });
   </script>
 </body>
