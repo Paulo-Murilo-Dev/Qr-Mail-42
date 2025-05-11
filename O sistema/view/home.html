@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="/img/ico.png" type="image/png">
   <style>
     /* Reset e variáveis */
     :root {
@@ -223,15 +224,16 @@
     }
 
     .about-image {
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
+      max-width: 350px;
+      margin: 0 auto;
+      border-radius: 42px;
     }
 
     .about-image img {
-      width: 100%;
+      max-width: 100%;
       height: auto;
       display: block;
+      margin: 0 auto;
       transition: var(--transition);
     }
 
@@ -314,10 +316,16 @@
       background: var(--white);
     }
 
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
+    .contact-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .contact-info-box {
+      border: 3px solid var(--primary-color);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 2rem;
     }
 
     .contact-info {
@@ -338,43 +346,6 @@
       margin-top: 3px;
     }
 
-    .contact-form {
-      background: var(--light-gray);
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--medium-gray);
-      border-radius: 8px;
-      font-family: inherit;
-      transition: var(--transition);
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-
-    textarea.form-control {
-      min-height: 150px;
-      resize: vertical;
-    }
-
     /* Rodapé */
     footer {
       background: var(--text-color);
@@ -388,6 +359,7 @@
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 3rem;
       margin-bottom: 3rem;
+      text-align: left;
     }
 
     .footer-logo {
@@ -466,7 +438,7 @@
     }
 
     .footer-bottom {
-      text-align: center;
+      text-align: left;
       padding-top: 1.5rem;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -475,6 +447,71 @@
       opacity: 0.7;
       font-size: 0.9rem;
     }
+
+    /* Animação do Hero */
+    @keyframes subtleGlow {
+      0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
+      50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
+      100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
+    }
+
+    .hero-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+/* Frase toda cai na primeira vez */
+.hero-title {
+  opacity: 0;
+  transform: translateY(-30px);
+  animation: dropOnce 1s ease-out forwards;
+}
+
+@keyframes dropOnce {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.word-wrapper {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  height: 1.2em;
+  margin-left: 8px;
+  overflow: hidden;
+}
+
+.word {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transform: translateY(-20px);
+  white-space: nowrap;
+  animation: wordCycle 9s infinite;
+}
+
+.w1 { animation-delay: 0s; }
+.w2 { animation-delay: 3s; }
+.w3 { animation-delay: 6s; }
+
+.word-placeholder {
+  visibility: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  height: 0;
+}
+@keyframes wordCycle {
+  0%   { opacity: 0; transform: translateY(-20px); }
+  10%  { opacity: 1; transform: translateY(0); }
+  30%  { opacity: 1; transform: translateY(0); }
+  40%  { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 0; transform: translateY(20px); }
+}
+
+
 
     /* Responsividade */
     @media (max-width: 992px) {
@@ -486,10 +523,6 @@
         order: -1;
         max-width: 600px;
         margin: 0 auto;
-      }
-      
-      .contact-grid {
-        grid-template-columns: 1fr;
       }
     }
 
@@ -520,6 +553,10 @@
       .section-title {
         font-size: 1.8rem;
       }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 576px) {
@@ -542,12 +579,13 @@
       .feature-card {
         padding: 1.5rem;
       }
-      
-      .footer-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+
+      .contact-item {
+        flex-direction: column;
       }
     }
+
+
   </style>
 </head>
 <body>
@@ -561,42 +599,49 @@
         </a>
         <div class="nav-links">
           <a href="#sobre">Sobre</a>
-          <a href="#recursos">Recursos</a>
-          <a href="#como-funciona">Como Funciona</a>
-
+          <a href="#recursos">Benefícios</a>
+          <a href="#como-funciona">Aplicações</a>
         </div>
-        <a href="#contato" class="cta-button">Solicitar Demonstração</a>
+        <a href="#contato" class="cta-button">Fazer um pedido</a>
       </nav>
     </div>
   </header>
-<!-- Hero Section -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-content">
-      <h1>Transforme Cada Presente em Uma Experiência Incrível</h1>
 
-      <p>Leve suas mensagens para outro nível com experiências digitais exclusivas, simples e rápidas.</p>
-      <div class="hero-buttons">
-        <a href="#contato" class="cta-button">Comece Agora</a>
-        <a href="#como-funciona" class="secondary-button">Veja Como Funciona</a>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Agregue valor ao seu 
+          <span class="word-wrapper">
+            <span class="word w1">produto</span>
+            <span class="word w2">presente</span>
+            <span class="word w3">brinde</span>
+            <!-- Fantasma invisível para forçar largura correta -->
+            <span class="word-placeholder">presente</span>
+          </span>
+        </h1>
+        
+        <p>Transforme produtos simples em presentes com significado — e acompanhe tudo com dados reais de acesso.</p>
+        <div class="hero-buttons">
+          <a href="#como-funciona" class="secondary-button">Como funciona</a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
+  </section>
 
   <!-- Sobre -->
   <section id="sobre" class="section">
     <div class="container">
-      <h2 class="section-title">Sobre o QR Mail</h2>
+      <h2 class="section-title">Sobre o que é</h2>
       <div class="about-content">
         <div class="about-text">
-          <p>O QR Mail é uma solução inovadora que combina a elegância das correspondências físicas com a praticidade do mundo digital. Nossa tecnologia permite que você envie cartões, convites ou qualquer tipo de correspondência com um QR Code único que direciona o destinatário para um conteúdo digital exclusivo.</p>
-          <p>Ideal para empresas que desejam criar experiências marcantes para seus clientes, ou para eventos especiais como casamentos, aniversários e formaturas, onde cada detalhe conta.</p>
-          <p>Nossa plataforma oferece total personalização, desde o design do cartão físico até o conteúdo digital acessado pelo QR Code, garantindo uma experiência coesa e memorável.</p>
+          <p>Se você vende bolos, trufas, artesanatos ou produtos online, agora pode incluir mensagens personalizadas junto aos seus pedidos — criando experiências únicas e conexões reais com seus clientes.</p>
+          <p>Se você já tem um bom fluxo de clientes você pode disponibilizar QR Codes prontos para presente, ideais para serem comprados e usados em embalagens — como um mimo digital moderno que encanta quem recebe.</p>
+          <p>O QR Mail 42 transforma qualquer item físico em uma experiência digital, trazendo mais valor e dados para seu negócio.</p>
         </div>
         <div class="about-image">
-          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Pessoa usando smartphone para escanear QR Code em cartão">
+          <img src="/img/Sorte.png">
         </div>
       </div>
     </div>
@@ -605,142 +650,114 @@
   <!-- Recursos -->
   <section id="recursos" class="section" style="background: var(--light-gray);">
     <div class="container">
-      <h2 class="section-title">Nossos Recursos</h2>
+      <h2 class="section-title">Benefícios e Diferenciais</h2>
       <div class="features">
         <div class="feature-card">
           <div class="feature-icon">
-            <i class="fas fa-lock"></i>
+            <i class="fas fa-chart-line"></i>
           </div>
-          <h3 class="feature-title">Segurança Garantida</h3>
-          <p>QR Codes criptografados com acesso restrito apenas ao destinatário, garantindo a privacidade do seu conteúdo especial.</p>
+          <h3 class="feature-title">Métricas Reais</h3>
+          <p>Saiba quantas pessoas acessaram, quando e até de que região foram os acessos ao seu QR Code.</p>
         </div>
-        
+
         <div class="feature-card">
           <div class="feature-icon">
-            <i class="fas fa-palette"></i>
+            <i class="fas fa-gift"></i>
           </div>
-          <h3 class="feature-title">Design Personalizado</h3>
-          <p>Cartões totalmente customizáveis para refletir sua marca ou estilo pessoal, com opções de materiais premium.</p>
+          <h3 class="feature-title">Mais Valor ao Produto</h3>
+          <p>Adicione emoção ao que você vende com mensagens personalizadas e digitais acessíveis por QR Code.</p>
         </div>
-        
-     
-        
+
         <div class="feature-card">
           <div class="feature-icon">
-            <i class="fas fa-infinity"></i>
+            <i class="fas fa-sync-alt"></i>
           </div>
-          <h3 class="feature-title">Conteúdo Dinâmico</h3>
-          <p>Altere o conteúdo vinculado ao QR Code mesmo após o envio, mantendo sua mensagem sempre atualizada.</p>
+          <h3 class="feature-title">Flexível e Atualizável</h3>
+          <p>Você pode alterar o conteúdo mesmo depois do código estar impresso e entregue.</p>
         </div>
       </div>
     </div>
   </section>
 
- <!-- Como Funciona -->
-<section id="como-funciona" class="section">
+  <!-- Como Funciona -->
+  <section id="como-funciona" class="section">
     <div class="container">
-      <h2 class="section-title">Como Funciona</h2>
+      <h2 class="section-title">Aplicações Práticas</h2>
       <div class="steps">
         <div class="step">
           <div class="step-number">1</div>
           <div class="step-content">
-            <h3>Envie Seu Conteúdo</h3>
-            <p>Fotos, vídeos, mensagens ou textos. Você escolhe!</p>
+            <h3>Escolha Seu Produto</h3>
+            <p>Seja um adesivo, tag NFC, mimo de entrega ou brinde — você decide.</p>
           </div>
         </div>
-  
+
         <div class="step">
           <div class="step-number">2</div>
           <div class="step-content">
-            <h3>Personalize</h3>
-            <p>Use nossos templates ou peça algo 100% exclusivo.</p>
+            <h3>Personalize Sua Mensagem</h3>
+            <p>Envie vídeos, áudios ou textos, com proteção por senha ou autodestruição - personalizamos o sistema para você</p>
           </div>
         </div>
-  
+
         <div class="step">
           <div class="step-number">3</div>
           <div class="step-content">
-            <h3>Receba Seus QR Codes</h3>
-            <p>Impressos, organizados e prontos pra usar.</p>
+            <h3>Receba os Códigos</h3>
+            <p>Entregamos os adesivos/tags prontos ou fornecemos o QR digital com ID único - com nosso sistema você escolhe como e onde a mensagem vai aparecer</p>
           </div>
         </div>
-  
+
         <div class="step">
           <div class="step-number">4</div>
           <div class="step-content">
-            <h3>Compartilhe e Encante</h3>
-            <p>Seus QR Codes levam experiências únicas direto para quem importa.</p>
+            <h3>Acompanhe os Resultados</h3>
+            <p>Relatórios mostram acessos, horários e regiões — geramos relatórios e enviamos sem custo adicional algum!</p>
           </div>
         </div>
       </div>
     </div>
   </section>
-  
 
   <!-- Contato -->
   <section id="contato" class="section contact-section">
     <div class="container">
       <h2 class="section-title">Entre em Contato</h2>
-      <div class="contact-grid">
-        <div class="contact-info">
-          <h3>Vamos conversar sobre seu projeto</h3>
-          <p>Estamos prontos para ajudar a criar experiências memoráveis para seus clientes, eventos especiais ou campanhas corporativas.</p>
-          
-          <div class="contact-item">
-            <div class="contact-icon">
-              <i class="fas fa-envelope"></i>
-            </div>
-            <div>
-              <h4>Email</h4>
-              <a href="mailto:dev.paulo.murilo42@gmail.com">dev.paulo.murilo42@gmail.com</a>
-            </div>
-          </div>
-          
-          <div class="contact-item">
-            <div class="contact-icon">
-              <i class="fas fa-phone"></i>
-            </div>
-            <div>
-              <h4>Telefone</h4>
-              <a href="tel:+5511912345678">(11) 91234-5678</a>
-            </div>
-          </div>
-          
-          <div class="contact-item">
-            <div class="contact-icon">
-              <i class="fas fa-clock"></i>
-            </div>
-            <div>
-              <h4>Horário Comercial</h4>
-              <p>Segunda a Sexta, 9h às 18h</p>
-            </div>
-          </div>
-        </div>
+      <div class="contact-container">
+        <p class="text-center">Estamos prontos para ajudar a criar experiências memoráveis para seus clientes, eventos especiais ou campanhas corporativas.</p>
         
-        <div class="contact-form">
-          <form>
-            <div class="form-group">
-              <label for="name" class="form-label">Nome Completo</label>
-              <input type="text" id="name" class="form-control" required>
+        <div class="contact-info-box">
+          <div class="contact-info">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div>
+                <h4>Email</h4>
+                <a href="mailto:dev.paulo.murilo42@gmail.com">dev.paulo.murilo42@gmail.com</a>
+              </div>
             </div>
             
-            <div class="form-group">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" id="email" class="form-control" required>
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div>
+                <h4>Telefone</h4>
+                <a href="tel:+5519997382659">(55) 1999738-2659</a>
+              </div>
             </div>
             
-            <div class="form-group">
-              <label for="phone" class="form-label">Telefone (opcional)</label>
-              <input type="tel" id="phone" class="form-control">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div>
+                <h4>Horário Comercial</h4>
+                <p>Segunda a Sexta, 9h às 18h</p>
+              </div>
             </div>
-            
-            <div class="form-group">
-              <label for="message" class="form-label">Como podemos ajudar?</label>
-              <textarea id="message" class="form-control" required></textarea>
-            </div>
-            
-            <button type="submit" class="cta-button" style="width: 100%;">Enviar Mensagem</button>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -757,13 +774,13 @@
           </div>
           <p>Transformando mensagens físicas em experiências digitais memoráveis desde 2025.</p>
           <div class="social-links">
-            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <!-- <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
             <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a> -->
+            <a href="https://api.whatsapp.com/send?phone=5519997382659&text=Quero%20solicitar%20alguns%20adesivos%20para%20meu%20neg%C3%B3cio!" class="social-link"><i class="fab fa-whatsapp"></i></a>
           </div>
         </div>
-        
+
         <div class="footer-links">
           <h3>Links Rápidos</h3>
           <ul>
@@ -771,17 +788,16 @@
             <li><a href="#recursos">Recursos</a></li>
             <li><a href="#como-funciona">Como Funciona</a></li>
             <li><a href="#contato">Contato</a></li>
-            <li><a href="#">Política de Privacidade</a></li>
           </ul>
         </div>
         
         <div class="footer-links">
           <h3>Serviços</h3>
           <ul>
-            <li><a href="#">Cartões Corporativos</a></li>
-            <li><a href="#">Convites Especiais</a></li>
-            <li><a href="#">Campanhas de Marketing</a></li>
-            <li><a href="#">Soluções Personalizadas</a></li>
+            <li><a href="https://api.whatsapp.com/send?phone=5519997382659&text=Quero%20solicitar%20um%20lote%20de%20adesivos%20personalizados!">Adesivos personalizados</a></li>
+            <li><a href="https://api.whatsapp.com/send?phone=5519997382659&text=Estou%20interessado%20em%20relat%C3%B3rios%20e%20dashboards%20personalizados!">Relatórios e dashboard</a></li>
+            <li><a href="https://api.whatsapp.com/send?phone=5519997382659&text=Quero%20solicitar%20uma%20campanha%20de%20marketing%20personalizada!">Campanhas de Marketing</a></li>
+            <li><a href="https://api.whatsapp.com/send?phone=5519997382659&text=Quero%20solicitar%20tags%20NFCs%20da%20qrmail42!">NFC personalizado</a></li>
           </ul>
         </div>
       </div>
