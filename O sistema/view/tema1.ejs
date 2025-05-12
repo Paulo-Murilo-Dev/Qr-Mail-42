@@ -3,31 +3,211 @@
 <head>
   <link rel="icon" href="/img/ico.png" type="image/png">
   <meta charset="UTF-8">
-  <title>Mensagem Recebida</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensagem Recebida - QR Mail 42</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Caveat:wght@400;600&display=swap');
+
+    :root {
+      --primary-color: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary-color: #3b82f6;
+      --accent-color: #1e40af;
+      --text-color: #1f2937;
+      --light-gray: #f9fafb;
+      --medium-gray: #e5e7eb;
+      --dark-gray: #6b7280;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #e8f0fe;
+      font-family: 'Comic Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: #f5f1e8;
       padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+      background-image: 
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%232563eb" opacity="0.1" d="M50 10L55 25L70 25L60 35L65 50L50 40L35 50L40 35L30 25L45 25L50 10Z"/></svg>'),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 100 100"><path fill="%231e40af" opacity="0.08" d="M50 10L55 25L70 25L60 35L65 50L50 40L35 50L40 35L30 25L45 25L50 10Z"/></svg>');
+      background-size: 100px 100px, 80px 80px;
+      animation: floatStars 100s linear infinite;
+    }
+
+    @keyframes floatStars {
+      0% { background-position: 0 0, 50px 50px; }
+      100% { background-position: 1000px 500px, 800px 400px; }
+    }
+
+    .letter-container {
+      width: 100%;
+      max-width: 600px;
+      background-color: var(--white);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      box-shadow: 
+        0 0 8px rgba(0, 0, 0, 0.1),
+        0 10px 25px rgba(0, 0, 0, 0.1);
+      position: relative;
+      border: 1px solid #e8e0d0;
+      transform-style: preserve-3d;
+      transform: perspective(1000px);
+      margin: 2rem 0;
+    }
+
+    .letter-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      opacity: 0.8;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .letter-container::after {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      height: 10px;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 50%;
+      filter: blur(4px);
+      z-index: -1;
+    }
+
+    h1 {
+      font-family: 'Comic Neue', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: var(--primary-dark);
       text-align: center;
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 0.5rem;
     }
-    .card {
-      background: white;
-      margin: auto;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      display: inline-block;
+
+    .message-content {
+      white-space: pre-line; 
+      
+      font-family: 'Fredoka', sans-serif;
+
+      font-size: 1.4rem;
+      
+      line-height: 1.8;
+      padding: 1.5rem;
+      background-color: #fffdf9;
+      border-radius: 12px;
+      border: 1.5px solid #4ec7ff;
+      margin: 1.5rem 0;
+      text-align: left;
     }
-    p {
-      font-size: 1.2rem;
+
+    .seal {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.8rem;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      transform: rotate(15deg);
+      z-index: 10;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+      font-style: italic;
+      max-width: 600px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      .letter-container {
+        padding: 2rem 1.5rem;
+        border-radius: 12px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      .seal {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        top: -15px;
+        right: -15px;
+      }
+
+      .message-content {
+        font-size: 1.2rem;
+        padding: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>💌 Sua Mensagem</h1>
-    <p><%= mensagem %></p>
+  <div class="letter-container">
+    <div class="seal">
+      <i class="fas fa-envelope-open-text"></i>
+    </div>
+    <h1>✩ Mensagem Especial ✩</h1>
+    <div class="message-content">
+      <%= mensagem %>
+    </div>
   </div>
+  <div style="
+  background-color: #e0f0ff;
+  padding: 0.8rem 1.2rem;
+  border-radius: 12px;
+  font-family: 'Comic Neue', sans-serif;
+  font-size: 1rem;
+  color: var(--text-color);
+  display: inline-block;
+  box-shadow: var(--shadow-sm);
+">
+  Uma mensagem especial do 
+  <span style="color: #166df9; font-weight: 700;">QR Mail 42</span> 💌
+</div>
+<script>
+  //script pra dar trim no incio
+  const msg = document.querySelector('.message-content');
+  if (msg) {
+    msg.innerText = msg.innerText.trimStart();
+  }
+</script>
 </body>
 </html>

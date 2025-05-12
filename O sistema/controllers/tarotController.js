@@ -47,7 +47,7 @@ Pode responder com negrito, itálico, sublinhado e com emojis para deixar ainda 
           resposta = '(Erro na resposta da IA)';
         }
       } catch (err) {
-        resposta = '(Erro ao gerar resposta mística)';
+        resposta = err;
       }
 
       const extrairCampo = (label, texto) => {

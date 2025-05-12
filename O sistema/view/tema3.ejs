@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <link rel="icon" href="/img/ico.png" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensagem Romântica - QR Mail 42</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Caveat:wght@400;600&display=swap');
+
+    :root {
+      --primary-color: #ff6b8b;
+      --primary-dark: #ff4757;
+      --secondary-color: #ff8e9e;
+      --accent-color: #ff3e4d;
+      --text-color: #4a2a39;
+      --light-gray: #fff5f7;
+      --medium-gray: #f8e1e7;
+      --dark-gray: #a87b8b;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Comic Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: #fff5f7;
+      padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+      background-image:
+  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6b8b' opacity='0.06'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.54 0 3.04.99 3.57 2.36h.87C14.46 4.99 15.96 4 17.5 4 20 4 22 6 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>"),
+  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff3e4d' opacity='0.04'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.54 0 3.04.99 3.57 2.36h.87C14.46 4.99 15.96 4 17.5 4 20 4 22 6 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>");
+background-size: 80px 80px, 100px 100px;
+      background-size: 100px 100px, 80px 80px;
+      animation: floatHearts 100s linear infinite;
+    }
+
+    @keyframes floatHearts {
+      0% { background-position: 0 0, 50px 50px; }
+      100% { background-position: 1000px 500px, 800px 400px; }
+    }
+
+    .letter-container {
+      width: 100%;
+      max-width: 600px;
+      background-color: var(--white);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      box-shadow: 
+        0 0 8px rgba(0, 0, 0, 0.1),
+        0 10px 25px rgba(0, 0, 0, 0.1);
+      position: relative;
+      border: 1px solid #ffd6e0;
+      transform-style: preserve-3d;
+      transform: perspective(1000px);
+      margin: 2rem 0;
+      background: linear-gradient(to bottom, #ffffff, #fff5f9);
+    }
+
+    .letter-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      opacity: 0.8;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .letter-container::after {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      height: 10px;
+      background: rgba(255, 107, 139, 0.1);
+      border-radius: 50%;
+      filter: blur(4px);
+      z-index: -1;
+    }
+
+    h1 {
+      font-family: 'Comic Neue', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: var(--accent-color);
+      text-align: center;
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .message-content {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      line-height: 1.8;
+      padding: 1.5rem;
+      background-color: #fff9fb;
+      border-radius: 12px;
+      border: 1.5px solid #ffb8c6;
+      margin: 1.5rem 0;
+      text-align: left;
+      position: relative;
+    }
+
+    .message-content::before {
+      content: '❤';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    .message-content::after {
+      content: '❤';
+      position: absolute;
+      bottom: -10px;
+      right: -10px;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    .seal {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.8rem;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      transform: rotate(15deg);
+      z-index: 10;
+    }
+
+
+    .confetti {
+      position: fixed;
+      top: -10px;
+      font-size: 1.2rem;
+      animation: fall linear forwards;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      .letter-container {
+        padding: 2rem 1.5rem;
+        border-radius: 12px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .seal {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        top: -15px;
+        right: -15px;
+      }
+
+      .message-content {
+        white-space: pre-line; 
+        font-size: 1.3rem;
+        padding: 1rem;
+      }
+
+      .footer-note {
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="letter-container">
+    <div class="seal">
+      <i class="fas fa-heart"></i>
+    </div>
+    <h1>❤️ Mensagem Especial ❤️</h1>
+    <div class="message-content">
+      <%= mensagem %>
+    </div>
+  </div>
+  <div style="
+  background-color: #ffdaf0;
+  padding: 0.8rem 1.2rem;
+  border-radius: 12px;
+  font-family: 'Comic Neue', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  display: inline-block;
+  box-shadow: var(--shadow-sm);
+">
+  Uma mensagem de amor do 
+  <span style="color: #f916bc; font-weight: 700;">QR Mail 42</span> 💌
+</div>
+
+  <script>
+    function createConfetti() {
+      const colors = ['#ff6b8b', '#ff4757', '#ff8e9e', '#ff3e4d', '#ffb8c6'];
+      const emojis = [ '💖', '💗', '💓', '💞', '💕'];
+      
+      for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+          confetti.style.left = Math.random() * window.innerWidth + 'px';
+          confetti.style.top = '-50px';
+          confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animationDuration = (3 + Math.random() * 4) + 's';
+          confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+          confetti.style.fontSize = (Math.random() * 1 + 0.8) + 'rem';
+          
+          document.body.appendChild(confetti);
+          
+          setTimeout(() => {
+            confetti.remove();
+          }, 7000);
+        }, i * 50);
+      }
+    }
+
+    // Inicia o efeito quando a página carrega
+    window.onload = function() {
+      createConfetti();
+      
+ 
+    };
+  </script>
+  //script pra dar trim no incio
+  <script>
+    const msg = document.querySelector('.message-content');
+    if (msg) {
+      msg.innerText = msg.innerText.trimStart();
+    }
+  </script>
+</body>
+</html>
