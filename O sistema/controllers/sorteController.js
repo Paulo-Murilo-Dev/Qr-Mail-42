@@ -1,6 +1,9 @@
 const path = require('path');
 const fs = require('fs');
 
+const registrarAcesso = require('./mainController').registrarAcesso || (() => {}); // fallback se necessário
+
+// 🎲 Pega uma sorte aleatória do arquivo
 function pegarSorteAleatoria(callback) {
   const filePath = path.join(__dirname, '../config/wordlistsorte.txt');
   fs.readFile(filePath, 'utf8', (err, data) => {
@@ -12,6 +15,7 @@ function pegarSorteAleatoria(callback) {
   });
 }
 
+// 🔢 Gera 7 números da sorte únicos entre 0–99
 function gerarNumerosDaSorte() {
   const numeros = new Set();
   while (numeros.size < 7) {
@@ -20,22 +24,40 @@ function gerarNumerosDaSorte() {
   return Array.from(numeros);
 }
 
-exports.exibirSorte = (req, res) => {
-  const cookie = req.cookies['sorte_do_dia'];
-  if (cookie) {
-    const { frase, numeros } = JSON.parse(cookie);
-    return res.render('sorte', { frase, numeros });
-  }
+// 🧠 Rota principal de exibição da sorte
+exports.exibirSorte = async (req, res) => {
+  const userIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
-  pegarSorteAleatoria((err, frase) => {
-    if (err) return res.status(500).send(err);
-    const numeros = gerarNumerosDaSorte();
+  try {
+    // 🧾 Se o usuário já tem um cookie de sorte, reutiliza
+    const cookie = req.cookies['sorte_do_dia'];
+    if (cookie) {
+      const { frase, numeros } = JSON.parse(cookie);
 
-    res.cookie('sorte_do_dia', JSON.stringify({ frase, numeros }), {
-      maxAge: 24 * 60 * 60 * 1000,
-      httpOnly: true
+      // 🛡️ Loga o acesso à rota "sorte"
+      await registrarAcesso({ route: 'sorte', ip: userIp });
+
+      return res.render('sorte', { frase, numeros });
+    }
+
+    // 🎴 Gera nova sorte se não houver cookie
+    pegarSorteAleatoria(async (err, frase) => {
+      if (err) return res.status(500).send(err);
+
+      const numeros = gerarNumerosDaSorte();
+
+      res.cookie('sorte_do_dia', JSON.stringify({ frase, numeros }), {
+        maxAge: 24 * 60 * 60 * 1000, // 1 dia
+        httpOnly: true
+      });
+
+      // 🛡️ Loga novo acesso também aqui
+      await registrarAcesso({ route: 'sorte', ip: userIp });
+
+      res.render('sorte', { frase, numeros });
     });
-
-    res.render('sorte', { frase, numeros });
-  });
+  } catch (err) {
+    console.error('Erro na rota /sorte:', err);
+    res.status(500).send('Erro ao gerar sorte.');
+  }
 };

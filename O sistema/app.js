@@ -29,13 +29,18 @@ const getConnection = require('./config/db');
 getConnection()
   .then(async (conn) => {
     console.log('✅ Banco conectado com sucesso ao iniciar o app.');
+
     const [rows] = await conn.query('SELECT NOW() AS agora');
-    console.log('🕒 Hora atual do banco:', rows[0].agora);
+    const dataBr = new Date(rows[0].agora).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+
+    console.log('🕒 Hora atual do banco (BR):', dataBr);
+
     await conn.end();
   })
   .catch((err) => {
     console.error('❌ Erro ao conectar com o banco ao iniciar o app:', err.message);
   });
+
 
 // Inicia o servidor
 app.listen(PORT, () => {

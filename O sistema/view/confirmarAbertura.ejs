@@ -3,40 +3,90 @@
 <head>
   <link rel="icon" href="/img/ico.png" type="image/png">
   <meta charset="UTF-8">
-  <title>Confirmar Abertura</title>
+  <title>Confirmar Abertura • QR Mail 42</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #ef4444;
+      --primary-dark: #b91c1c;
+      --background: #fff4e5;
+      --white: #ffffff;
+      --text: #4b1c18;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #fff4e5;
+      background-color: var(--background);
+      font-family: 'Comic Neue', sans-serif;
+      color: var(--text);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
+      padding: 1rem;
     }
+
     .box {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      background: var(--white);
+      padding: 2.5rem 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 20px var(--shadow);
+      max-width: 500px;
+      width: 100%;
       text-align: center;
     }
-    button {
-      background: #dc3545;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
+
+    .icon-visualizacao {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1rem;
     }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--primary-dark);
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 1.8rem;
+      text-align: justify;
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: var(--transition);
+      box-shadow: 0 2px 6px var(--shadow);
+    }
+
     button:hover {
-      background: #c82333;
+      background: var(--primary-dark);
+      transform: scale(1.03);
     }
   </style>
 </head>
 <body>
   <div class="box">
+    <div class="icon-visualizacao">
+        <img src="/img/view-unique.png" alt="Visualização Única" width="60" height="60" style="margin-bottom: 1rem;" />
+
+    </div>
     <h2>Atenção!</h2>
     <p>Essa mensagem só poderá ser visualizada uma única vez. Deseja continuar?</p>
     <form method="POST" action="/v/<%= codigo %>/confirmar">

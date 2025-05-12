@@ -1,73 +1,364 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <link rel="icon" href="/img/ico.png" type="image/png">
   <meta charset="UTF-8">
-  <title>Fixar Mensagem - QR Mail 42</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensagem Especial - QR Mail 42</title>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f9f9f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+  
+    :root {
+      --primary-color: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary-color: #3b82f6;
+      --accent-color: #1e40af;
+      --text-color: #1f2937;
+      --light-gray: #f9fafb;
+      --medium-gray: #e5e7eb;
+      --dark-gray: #6b7280;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+  
+    * {
       margin: 0;
-    }
-    .container {
-      background: white;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      width: 400px;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 15px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+      padding: 0;
       box-sizing: border-box;
     }
-    label {
-      margin-bottom: 5px;
-      font-weight: bold;
-      display: block;
+  
+    body,
+    h2,
+    textarea,
+    select,
+    button[type="submit"],
+    body {
+      font-family: 'Comic Neue', sans-serif;
+      font-weight: normal; /* ou bold onde quiser */
+}
+    
+    body {
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: #f5f1e8;
+      padding: 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
     }
-    button {
-      background: #007bff;
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+  
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%232563eb" opacity="0.1" d="M50 10L55 25L70 25L60 35L65 50L50 40L35 50L40 35L30 25L45 25L50 10Z"/></svg>'),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 100 100"><path fill="%231e40af" opacity="0.08" d="M50 10L55 25L70 25L60 35L65 50L50 40L35 50L40 35L30 25L45 25L50 10Z"/></svg>');
+      background-size: 100px 100px, 80px 80px;
+      animation: floatStars 100s linear infinite;
+      z-index: -1;
+    }
+  
+    @keyframes floatStars {
+      0% { background-position: 0 0, 50px 50px; }
+      100% { background-position: 1000px 500px, 800px 400px; }
+    }
+  
+    .letter-container {
       width: 100%;
-      font-size: 16px;
+      max-width: 500px;
+      background-color: var(--white);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      box-shadow: 
+        0 0 8px rgba(0, 0, 0, 0.1),
+        0 10px 25px rgba(0, 0, 0, 0.1);
+      position: relative;
+      border: 1px solid #e8e0d0;
+      transform-style: preserve-3d;
+      transform: perspective(1000px);
+
     }
-    button:hover {
-      background: #0062cc;
+  
+    .letter-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      opacity: 0.8;
+      border-radius: 16px 16px 0 0;
+    }
+  
+    .letter-container::after {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      height: 10px;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 50%;
+      filter: blur(4px);
+      z-index: -1;
+    }
+  
+    h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-dark);
+      text-align: center;
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+  
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  
+    label {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-left: 0.3rem;
+    }
+  
+    label i {
+      color: var(--primary-color);
+      font-size: 0.9rem;
+    }
+  
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 1.2rem;
+      border: 1px solid #d8d1c5;
+      border-radius: 12px;
+      font-size: 1rem;
+      color: var(--text-color);
+      resize: vertical;
+      transition: var(--transition);
+      background-color: #fffdf9;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+      line-height: 1.7;
+    }
+  
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 
+        inset 0 1px 3px rgba(0, 0, 0, 0.05),
+        0 0 0 2px rgba(37, 99, 235, 0.2);
+    }
+  
+    textarea::placeholder {
+      color: var(--dark-gray);
+      font-style: italic;
+      font-size: 1.2rem;
+    }
+  
+    select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #d8d1c5;
+      border-radius: 12px;
+      font-size: 1rem;
+      color: var(--text-color);
+      background-color: #fffdf9;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1.2rem;
+      transition: var(--transition);
+    }
+  
+    select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    }
+  
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.8rem;
+      background-color: #fffdf9;
+      border-radius: 12px;
+      border: 1px solid #d8d1c5;
+      position: relative;
+      overflow: hidden;
+    }
+  
+    .checkbox-group::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+      border-radius: 3px 0 0 3px;
+    }
+  
+    .checkbox-group input[type="checkbox"] {
+      width: 1.25rem;
+      height: 1.25rem;
+      accent-color: var(--primary-color);
+      cursor: pointer;
+    }
+  
+    button[type="submit"] {
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      color: var(--white);
+      border: none;
+      padding: 1.1rem;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+      margin-top: 0.5rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+  
+    button[type="submit"]:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--accent-color));
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+      transform: translateY(-2px);
+    }
+  
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+  
+    .seal {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.8rem;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      transform: rotate(15deg);
+      z-index: 10;
+    }
+  
+    .footer-note {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--dark-gray);
+      font-style: italic;
+      max-width: 500px;
+    }
+  
+    @media (max-width: 480px) {
+      .letter-container {
+        padding: 2rem 1.5rem;
+        border-radius: 12px;
+      }
+  
+      h2 {
+        font-size: 1.8rem;
+      }
+  
+      h2::before,
+      h2::after {
+        display: none;
+      }
+  
+      .seal {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        top: -15px;
+        right: -15px;
+      }
     }
   </style>
+  
 </head>
 <body>
-  <div class="container">
-    <h2>Fixar Mensagem</h2>
+  <div class="letter-container">
+    <div class="seal">
+      <i class="fas fa-heart"></i>
+    </div>
+    <h2>Sua Mensagem Especial</h2>
     <form method="POST">
-      <label>Mensagem:</label>
-      <textarea name="mensagem" required></textarea>
+      <div class="form-group">
+        <label for="mensagem">
+          <i class="fas fa-quote-left"></i> Escreva sua mensagem:
+        </label>
+        <textarea 
+          id="mensagem" 
+          name="mensagem" 
+          required 
+          placeholder="Querido(a)..."></textarea>
+      </div>
 
-      <label>Tema:</label>
-      <select name="tema">
-        <option value="1">Claro</option>
-        <option value="2">Escuro</option>
-      </select>
+      <div class="form-group">
+        <label for="tema">
+          <i class="fas fa-brush"></i> Estilo da mensagem:
+        </label>
+        <select id="tema" name="tema">
+          <option value="1">Clássico</option>
+          <option value="2">Noturno</option>
+          <option value="3">Amor</option>
+        </select>
+      </div>
 
-      <label>
-        <input type="checkbox" name="is_single_view"> Mensagem de visualização única
-      </label>
+      <div class="checkbox-group">
+        <input type="checkbox" id="is_single_view" name="is_single_view">
+        <label for="is_single_view">Mensagem de visualização única</label>
+      </div>
 
-      <button type="submit">Salvar Mensagem</button>
+      <button type="submit">
+        <i class="fas fa-seal"></i> Selar Mensagem
+      </button>
     </form>
   </div>
+  <p class="footer-note">
+    Esta mensagem ficará permanentemente associada ao QR Code como um momento único no tempo
+  </p>
 </body>
 </html>
